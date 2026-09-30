@@ -8,24 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f5f3ff',
-              500: '#8b5cf6',
-              600: '#7c3aed',
-              700: '#6d28d9',
-              900: '#4c1d95',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
     body {
       background-color: #0f172a;
@@ -40,7 +22,7 @@
       background-color: #334155;
       border-radius: 9999px;
     }
-    /* 管理者モード専用の表示制御 */
+    /* 管理者専用表示制御 */
     .admin-only {
       display: none !important;
     }
@@ -54,7 +36,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-slate-950 text-slate-100">
 
-  <!-- ナビゲーションバー -->
+  <!-- ヘッダー -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
@@ -75,7 +57,6 @@
           <span>TRPG</span>
         </button>
         <button onclick="switchTab('murder-mystery')" id="tab-murder-mystery" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
-          <!-- 剣アイコン -->
           <i class="fa-solid fa-shield-halved"></i>
           <span>Murder Mystery</span>
         </button>
@@ -90,13 +71,13 @@
     </div>
   </header>
 
-  <!-- メインコンテンツ領域 -->
+  <!-- メインコンテンツ -->
   <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
 
     <!-- ==================== 1. ホーム ==================== -->
     <section id="view-home" class="space-y-8">
       
-      <!-- プロフィールセクション -->
+      <!-- プロフィール -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden shadow-xl">
         <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div class="relative group">
@@ -111,9 +92,9 @@
             </div>
             <p class="text-slate-400 text-sm max-w-2xl leading-relaxed whitespace-pre-wrap" id="profBio">TRPGとマーダーミステリーを楽しんでいます。キャラクターや通過シナリオのまとめ用ポータルです。</p>
             
-            <!-- SNS・連絡先リンク（動的生成） -->
+            <!-- SNS・連絡先リンク -->
             <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-2" id="profLinksContainer">
-              <!-- JSで生成 -->
+              <!-- JS生成 -->
             </div>
           </div>
         </div>
@@ -187,7 +168,7 @@
             <i class="fa-solid fa-dice-d20 text-purple-400"></i>
             <span>TRPG キャラクター一覧</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-1">作成した探索者・キャラクターの設定と伏せ感想リンク集</p>
+          <p class="text-xs text-slate-400 mt-1">作成した探索者・キャラクターの設定とふせったー感想リンク集</p>
         </div>
         <button onclick="openTrpgModal()" class="admin-only self-start sm:self-auto px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2">
           <i class="fa-solid fa-plus"></i>
@@ -195,7 +176,7 @@
         </button>
       </div>
 
-      <!-- キャラクターカード一覧 -->
+      <!-- キャラクター一覧（初期カードUI） -->
       <div id="trpgList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- JS生成 -->
       </div>
@@ -209,7 +190,7 @@
             <i class="fa-solid fa-shield-halved text-purple-400"></i>
             <span>Murder Mystery 通過記録</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-1">通過したマダミスシナリオ・担当キャラクターと感想まとめ</p>
+          <p class="text-xs text-slate-400 mt-1">通過したMurder Mysteryシナリオ・担当キャラクターと感想まとめ</p>
         </div>
         <button onclick="openMurderMysteryModal()" class="admin-only self-start sm:self-auto px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2">
           <i class="fa-solid fa-plus"></i>
@@ -217,7 +198,7 @@
         </button>
       </div>
 
-      <!-- マダミス一覧 -->
+      <!-- Murder Mystery 一覧（初期カードUI） -->
       <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- JS生成 -->
       </div>
@@ -225,7 +206,7 @@
 
   </main>
 
-  <!-- ==================== 各種モーダル ==================== -->
+  <!-- ==================== モーダル各種 ==================== -->
 
   <!-- プロフィール編集モーダル -->
   <div id="modalProfile" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -251,7 +232,7 @@
           <textarea id="inputProfBio" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
         </div>
         
-        <!-- 動的リンク追加部分 -->
+        <!-- 動的リンク追加 -->
         <div>
           <div class="flex items-center justify-between mb-2">
             <label class="block text-slate-300 font-medium">SNS・連絡先リンク</label>
@@ -259,9 +240,7 @@
               <i class="fa-solid fa-plus mr-1"></i>リンク枠を追加
             </button>
           </div>
-          <div id="profileLinksEditor" class="space-y-2">
-            <!-- JSで行を追加 -->
-          </div>
+          <div id="profileLinksEditor" class="space-y-2"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
@@ -295,7 +274,7 @@
     </div>
   </div>
 
-  <!-- 予定追加モーダル -->
+  <!-- 予定追加モーダル（時間入力対応） -->
   <div id="modalSchedule" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
@@ -303,22 +282,52 @@
         <span>セッション予定追加</span>
       </h3>
       <div class="space-y-3 text-sm">
-        <div>
-          <label class="block text-slate-300 font-medium mb-1">日付</label>
-          <input type="date" id="inputSchedDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">日付</label>
+            <input type="date" id="inputSchedDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">開始時間 (任意)</label>
+            <input type="time" id="inputSchedTime" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs">
+          </div>
         </div>
         <div>
           <label class="block text-slate-300 font-medium mb-1">シナリオ・卓名</label>
           <input type="text" id="inputSchedTitle" placeholder="例: 狂気山脈 卓" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
         <div>
-          <label class="block text-slate-300 font-medium mb-1">時間・メモ</label>
-          <input type="text" id="inputSchedNote" placeholder="例: 21:00〜 / KP: ○○さん" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <label class="block text-slate-300 font-medium mb-1">メモ (KP・メンバー等)</label>
+          <input type="text" id="inputSchedNote" placeholder="例: KP: ○○さん" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
         <button onclick="closeModal('modalSchedule')" class="px-4 py-2 rounded-lg text-slate-400 hover:bg-slate-800 text-sm">キャンセル</button>
         <button onclick="saveSchedule()" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium">追加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 日付の予定一覧・削除モーダル -->
+  <div id="modalDaySchedules" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-calendar-day text-purple-400"></i>
+          <span id="dayScheduleModalDate">予定一覧</span>
+        </h3>
+        <button onclick="closeModal('modalDaySchedules')" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="dayScheduleItemsList" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
+        <!-- JS生成 -->
+      </div>
+      <div class="pt-2 flex justify-between items-center border-t border-slate-800">
+        <button onclick="openScheduleModalFromDay()" class="admin-only text-xs px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium">
+          <i class="fa-solid fa-plus mr-1"></i>この日に予定を追加
+        </button>
+        <button onclick="closeModal('modalDaySchedules')" class="ml-auto px-4 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800 text-xs">閉じる</button>
       </div>
     </div>
   </div>
@@ -357,7 +366,7 @@
         </div>
 
         <div>
-          <label class="block text-slate-300 font-medium mb-1">性格・特徴・生い立ち設定</label>
+          <label class="block text-slate-300 font-medium mb-1">性格・特徴・設定</label>
           <textarea id="inputTrpgBio" rows="4" placeholder="性格や裏設定などを自由に記入" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
         </div>
 
@@ -369,9 +378,7 @@
               <i class="fa-solid fa-plus mr-1"></i>URL追加
             </button>
           </div>
-          <div id="trpgFusetterList" class="space-y-2">
-            <!-- JSで動的行追加 -->
-          </div>
+          <div id="trpgFusetterList" class="space-y-2"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
@@ -422,9 +429,7 @@
               <i class="fa-solid fa-plus mr-1"></i>URL追加
             </button>
           </div>
-          <div id="mmFusetterList" class="space-y-2">
-            <!-- JSで動的行追加 -->
-          </div>
+          <div id="mmFusetterList" class="space-y-2"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
@@ -434,7 +439,7 @@
     </div>
   </div>
 
-  <!-- キャラクター詳細閲覧モーダル（TRPG用） -->
+  <!-- キャラクター詳細閲覧モーダル（TRPG用：初期UIデザイン） -->
   <div id="modalCharDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-start justify-between">
@@ -459,7 +464,7 @@
         </div>
 
         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
-          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">性格・設定・生い立ち</h4>
+          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">性格・設定</h4>
           <p id="detailCharBio" class="whitespace-pre-wrap leading-relaxed text-slate-200"></p>
         </div>
 
@@ -468,23 +473,53 @@
             <i class="fa-solid fa-comment-dots text-purple-400"></i>
             <span>感想・ふせったー一覧</span>
           </h4>
-          <div id="detailCharFusetterList" class="space-y-2">
-            <!-- JS生成 -->
-          </div>
+          <div id="detailCharFusetterList" class="space-y-2"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript ロジック -->
+  <!-- Murder Mystery 詳細閲覧モーダル -->
+  <div id="modalMmDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-4">
+          <img id="detailMmImg" src="" class="w-16 h-16 rounded-xl object-cover border border-purple-500/40">
+          <div>
+            <div class="text-xs text-purple-400 font-semibold" id="detailMmChar"></div>
+            <h3 id="detailMmScenario" class="text-2xl font-bold text-white mt-0.5"></h3>
+          </div>
+        </div>
+        <button onclick="closeModal('modalMmDetail')" class="text-slate-400 hover:text-white p-2">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-sm text-slate-300">
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">一言感想</h4>
+          <p id="detailMmReview" class="whitespace-pre-wrap leading-relaxed text-slate-200"></p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-purple-400"></i>
+            <span>ネタバレ感想・ふせったー一覧</span>
+          </h4>
+          <div id="detailMmFusetterList" class="space-y-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
   <script>
     /* ==========================================================
        1. データ管理 & 初期データ
     ========================================================== */
-    const STORAGE_KEY = 'portal_site_data_v2';
+    const STORAGE_KEY = 'portal_site_data_v3';
     const ADMIN_STORAGE_KEY = 'portal_site_is_admin';
 
-    // デフォルトデータ
     const defaultData = {
       profile: {
         name: "陽葵",
@@ -501,7 +536,7 @@
         { id: 3, platform: "Discord", code: "user_name#0000" }
       ],
       schedules: [
-        { id: 1, date: "2026-10-15", title: "狂気山脈", note: "21:00〜 KP:〇〇さん" }
+        { id: 1, date: "2026-10-15", time: "21:00", title: "狂気山脈", note: "KP:〇〇さん" }
       ],
       trpgChars: [
         {
@@ -549,7 +584,6 @@
     /* ==========================================================
        2. 管理者／閲覧モード判定
     ========================================================== */
-    // URLに ?admin=true があるか、localStorageにフラグがあれば管理者として動作
     const urlParams = new URLSearchParams(window.location.search);
     let isAdmin = urlParams.get('admin') === 'true' || localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
 
@@ -573,11 +607,11 @@
         }
       } else {
         const pass = prompt("管理者パスワードを入力してください:");
-        if (pass === "Hima0132") { // パスワードはお好みで変更してください
+        if (pass === "Hima0132") {
           isAdmin = true;
           localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
           applyAdminMode();
-          alert("管理者モードになりました。編集・追加が行えます！");
+          alert("管理者モードになりました。編集・追加・削除が行えます！");
         } else if (pass !== null) {
           alert("パスワードが違います。");
         }
@@ -604,7 +638,7 @@
     /* ==========================================================
        4. レンダリング処理
     ========================================================== */
-    // プロフィール表示
+    // プロフィール
     function renderProfile() {
       const p = siteData.profile;
       document.getElementById('profName').innerText = p.name || "PLAYER";
@@ -626,7 +660,7 @@
       });
     }
 
-    // フレンドコード表示
+    // フレンドコード
     function renderFriendCodes() {
       const container = document.getElementById('friendCodesList');
       container.innerHTML = '';
@@ -656,8 +690,10 @@
       });
     }
 
-    // カレンダー表示
+    // カレンダー
     let curDate = new Date();
+    let selectedDayForModal = "";
+
     function renderCalendar() {
       const year = curDate.getFullYear();
       const month = curDate.getMonth();
@@ -669,33 +705,29 @@
       const firstDay = new Date(year, month, 1).getDay();
       const lastDate = new Date(year, month + 1, 0).getDate();
 
-      // 空白マス
       for (let i = 0; i < firstDay; i++) {
         const blank = document.createElement('div');
         blank.className = "h-20 bg-slate-950/40 rounded-lg border border-slate-900/50";
         grid.appendChild(blank);
       }
 
-      // 日付マス
       for (let d = 1; d <= lastDate; d++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const dayScheds = siteData.schedules.filter(s => s.date === dateStr);
 
         const cell = document.createElement('div');
         cell.className = "h-20 bg-slate-800/40 rounded-lg border border-slate-800/80 p-1 flex flex-col overflow-hidden text-xs hover:border-purple-500/40 transition cursor-pointer";
-        cell.onclick = () => {
-          if (isAdmin) {
-            document.getElementById('inputSchedDate').value = dateStr;
-            openScheduleModal();
-          }
-        };
+        cell.onclick = () => openDayScheduleModal(dateStr);
 
         cell.innerHTML = `
-          <div class="font-semibold text-slate-400 mb-1">${d}</div>
+          <div class="font-semibold text-slate-400 mb-1 flex items-center justify-between">
+            <span>${d}</span>
+            ${dayScheds.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>` : ''}
+          </div>
           <div class="space-y-1 overflow-y-auto custom-scrollbar flex-1">
             ${dayScheds.map(s => `
-              <div class="bg-purple-900/50 border border-purple-500/30 text-purple-200 px-1 py-0.5 rounded text-[10px] truncate" title="${escapeHtml(s.title + ' ' + (s.note || ''))}">
-                ${escapeHtml(s.title)}
+              <div class="bg-purple-900/50 border border-purple-500/30 text-purple-200 px-1 py-0.5 rounded text-[10px] truncate" title="${escapeHtml((s.time ? s.time + ' ' : '') + s.title + ' ' + (s.note || ''))}">
+                ${s.time ? `<span class="text-purple-300 font-mono text-[9px] mr-1">${s.time}</span>` : ''}${escapeHtml(s.title)}
               </div>
             `).join('')}
           </div>
@@ -709,7 +741,57 @@
       renderCalendar();
     }
 
-    // TRPG 一覧
+    // 日付別予定一覧・削除モーダル
+    function openDayScheduleModal(dateStr) {
+      selectedDayForModal = dateStr;
+      document.getElementById('dayScheduleModalDate').innerText = `${dateStr} の予定`;
+      const listContainer = document.getElementById('dayScheduleItemsList');
+      listContainer.innerHTML = '';
+
+      const items = siteData.schedules.filter(s => s.date === dateStr);
+      if (items.length === 0) {
+        listContainer.innerHTML = `<div class="text-xs text-slate-500 text-center py-4">この日の予定はありません</div>`;
+      } else {
+        items.forEach(s => {
+          const row = document.createElement('div');
+          row.className = "flex items-center justify-between p-2.5 rounded-xl bg-slate-800/70 border border-slate-700/60";
+          row.innerHTML = `
+            <div class="overflow-hidden">
+              <div class="flex items-center gap-2">
+                ${s.time ? `<span class="text-xs font-mono font-bold text-purple-400 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-800/50">${escapeHtml(s.time)}</span>` : ''}
+                <span class="text-sm font-semibold text-slate-100 truncate">${escapeHtml(s.title)}</span>
+              </div>
+              ${s.note ? `<div class="text-xs text-slate-400 mt-1 pl-1">${escapeHtml(s.note)}</div>` : ''}
+            </div>
+            <button onclick="deleteSchedule(${s.id})" class="admin-only p-1.5 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded transition text-xs ml-2" title="予定を削除">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          `;
+          listContainer.appendChild(row);
+        });
+      }
+
+      openModal('modalDaySchedules');
+    }
+
+    function openScheduleModalFromDay() {
+      closeModal('modalDaySchedules');
+      document.getElementById('inputSchedDate').value = selectedDayForModal;
+      document.getElementById('inputSchedTime').value = '';
+      openScheduleModal();
+    }
+
+    function deleteSchedule(id) {
+      if (!confirm("この予定を削除しますか？")) return;
+      siteData.schedules = siteData.schedules.filter(s => s.id !== id);
+      saveData();
+      renderCalendar();
+      if (selectedDayForModal) {
+        openDayScheduleModal(selectedDayForModal);
+      }
+    }
+
+    // TRPG 一覧（初期UI）
     function renderTrpgList() {
       const container = document.getElementById('trpgList');
       container.innerHTML = '';
@@ -750,7 +832,7 @@
       });
     }
 
-    // Murder Mystery 一覧
+    // Murder Mystery 一覧（初期UI）
     function renderMurderMysteryList() {
       const container = document.getElementById('murderMysteryList');
       container.innerHTML = '';
@@ -758,7 +840,7 @@
         const card = document.createElement('div');
         card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-purple-500/40 transition flex flex-col";
         card.innerHTML = `
-          <div class="h-44 w-full bg-slate-800 relative">
+          <div class="h-44 w-full bg-slate-800 relative cursor-pointer" onclick="viewMmDetail(${mm.id})">
             <img src="${mm.image || 'https://via.placeholder.com/300'}" class="w-full h-full object-cover">
             <span class="absolute top-3 left-3 px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-purple-500/30 text-purple-300 font-medium flex items-center gap-1">
               <i class="fa-solid fa-shield-halved text-[10px]"></i>
@@ -768,30 +850,23 @@
           <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
             <div>
               <div class="text-xs text-purple-400 font-semibold mb-0.5">HO: ${escapeHtml(mm.character)}</div>
-              <h3 class="text-lg font-bold text-white">${escapeHtml(mm.scenario)}</h3>
-              <p class="text-xs text-slate-400 mt-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800/80">${escapeHtml(mm.review || '一言感想なし')}</p>
+              <h3 class="text-lg font-bold text-white cursor-pointer hover:text-purple-400 transition" onclick="viewMmDetail(${mm.id})">${escapeHtml(mm.scenario)}</h3>
+              <p class="text-xs text-slate-400 mt-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800/80 line-clamp-2">${escapeHtml(mm.review || '一言感想なし')}</p>
             </div>
             
-            <!-- ふせったーリンク集 -->
-            <div class="space-y-1.5 pt-2 border-t border-slate-800">
-              <div class="text-[11px] text-slate-400 font-medium">ネタバレ感想:</div>
-              <div class="space-y-1">
-                ${(mm.fusetters || []).map(f => `
-                  <a href="${f.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between text-xs px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-purple-300 border border-slate-700/60 transition">
-                    <span class="truncate">${escapeHtml(f.label || 'ふせったーを見る')}</span>
-                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-purple-400"></i>
-                  </a>
-                `).join('')}
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <button onclick="viewMmDetail(${mm.id})" class="text-xs text-purple-400 hover:text-purple-300 font-medium flex items-center gap-1">
+                <span>詳細・感想リンク</span>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+              <div class="flex items-center space-x-1">
+                <button onclick="editMurderMystery(${mm.id})" class="admin-only p-1 text-slate-400 hover:text-slate-200 text-xs">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button onclick="deleteMurderMystery(${mm.id})" class="admin-only p-1 text-rose-400 hover:text-rose-300 text-xs">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
               </div>
-            </div>
-
-            <div class="flex justify-end space-x-2 pt-2 admin-only">
-              <button onclick="editMurderMystery(${mm.id})" class="p-1 text-slate-400 hover:text-slate-200 text-xs">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button onclick="deleteMurderMystery(${mm.id})" class="p-1 text-rose-400 hover:text-rose-300 text-xs">
-                <i class="fa-solid fa-trash"></i>
-              </button>
             </div>
           </div>
         `;
@@ -805,7 +880,6 @@
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // 画像ファイル読み込み（Base64化）
     function handleImageUpload(inputElem, previewElem, callback) {
       if (!inputElem.files || !inputElem.files[0]) return;
       const reader = new FileReader();
@@ -898,7 +972,7 @@
       renderFriendCodes();
     }
 
-    // カレンダー予定
+    // 予定追加
     function openScheduleModal() {
       document.getElementById('inputSchedTitle').value = '';
       document.getElementById('inputSchedNote').value = '';
@@ -906,23 +980,24 @@
     }
     function saveSchedule() {
       const date = document.getElementById('inputSchedDate').value;
+      const time = document.getElementById('inputSchedTime').value;
       const title = document.getElementById('inputSchedTitle').value.trim();
       const note = document.getElementById('inputSchedNote').value.trim();
       if (!date || !title) return alert("日付とタイトルを入力してください");
 
-      siteData.schedules.push({ id: Date.now(), date, title, note });
+      siteData.schedules.push({ id: Date.now(), date, time, title, note });
       saveData();
       renderCalendar();
       closeModal('modalSchedule');
     }
 
-    // ふせったー用 動的追加行
+    // ふせったー行追加
     function addFusetterLinkRow(containerId, label = '', url = '') {
       const c = document.getElementById(containerId);
       const row = document.createElement('div');
       row.className = "flex items-center gap-2 fusetter-row";
       row.innerHTML = `
-        <input type="text" placeholder="ラベル (例: シナリオ名 感想)" value="${escapeHtml(label)}" class="w-1/3 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs fusetter-label">
+        <input type="text" placeholder="ラベル (例: ネタバレ感想)" value="${escapeHtml(label)}" class="w-1/3 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs fusetter-label">
         <input type="url" placeholder="https://fse.tw/..." value="${escapeHtml(url)}" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs fusetter-url">
         <button type="button" onclick="this.parentElement.remove()" class="p-1.5 text-rose-400 hover:text-rose-300 text-xs">
           <i class="fa-solid fa-xmark"></i>
@@ -931,7 +1006,7 @@
       c.appendChild(row);
     }
 
-    // TRPG キャラ
+    // TRPG キャラ作成・編集
     let tempTrpgImg = "";
     function openTrpgModal(editItem = null) {
       document.getElementById('trpgEditId').value = editItem ? editItem.id : '';
@@ -1010,7 +1085,6 @@
       closeModal('modalTrpg');
     }
 
-    // キャラ詳細モーダル表示
     function viewCharDetail(id) {
       const c = siteData.trpgChars.find(item => item.id === id);
       if (!c) return;
@@ -1126,6 +1200,37 @@
       saveData();
       renderMurderMysteryList();
       closeModal('modalMurderMystery');
+    }
+
+    function viewMmDetail(id) {
+      const mm = siteData.murderMysteries.find(m => m.id === id);
+      if (!mm) return;
+
+      document.getElementById('detailMmScenario').innerText = mm.scenario;
+      document.getElementById('detailMmChar').innerText = `担当キャラクター: ${mm.character}`;
+      document.getElementById('detailMmImg').src = mm.image || 'https://via.placeholder.com/150';
+      document.getElementById('detailMmReview').innerText = mm.review || '一言感想はありません。';
+
+      const fList = document.getElementById('detailMmFusetterList');
+      fList.innerHTML = '';
+      if (mm.fusetters && mm.fusetters.length > 0) {
+        mm.fusetters.forEach(f => {
+          const a = document.createElement('a');
+          a.href = f.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.className = "flex items-center justify-between text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition";
+          a.innerHTML = `
+            <span>${escapeHtml(f.label)}</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-purple-400 text-[11px]"></i>
+          `;
+          fList.appendChild(a);
+        });
+      } else {
+        fList.innerHTML = '<p class="text-xs text-slate-500 italic">登録された感想はありません</p>';
+      }
+
+      openModal('modalMmDetail');
     }
 
     /* ==========================================================
