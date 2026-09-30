@@ -32,6 +32,10 @@
     body.is-admin div.admin-only-block {
       display: block !important;
     }
+    /* ロストキャラクター用スタイル */
+    .char-lost-img {
+      filter: grayscale(100%) brightness(0.7);
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-950 text-slate-100">
@@ -93,9 +97,7 @@
             <p class="text-slate-400 text-sm max-w-2xl leading-relaxed whitespace-pre-wrap" id="profBio">TRPGとマーダーミステリーを楽しんでいます。キャラクターや通過シナリオのまとめ用ポータルです。</p>
             
             <!-- SNS・連絡先リンク -->
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-2" id="profLinksContainer">
-              <!-- JS生成 -->
-            </div>
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-2" id="profLinksContainer"></div>
           </div>
         </div>
       </div>
@@ -114,9 +116,7 @@
               <i class="fa-solid fa-plus mr-1"></i>追加
             </button>
           </div>
-          <div id="friendCodesList" class="space-y-3">
-            <!-- JS生成 -->
-          </div>
+          <div id="friendCodesList" class="space-y-3"></div>
         </div>
 
         <!-- カレンダー -->
@@ -140,7 +140,6 @@
           </div>
           
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
-            <!-- 曜日ヘッダー -->
             <div class="grid grid-cols-7 text-center text-xs font-semibold text-slate-400 mb-2">
               <div class="text-rose-400">日</div>
               <div>月</div>
@@ -150,10 +149,7 @@
               <div>金</div>
               <div class="text-sky-400">土</div>
             </div>
-            <!-- 日付グリッド -->
-            <div id="calendarGrid" class="grid grid-cols-7 gap-1">
-              <!-- JS生成 -->
-            </div>
+            <div id="calendarGrid" class="grid grid-cols-7 gap-1"></div>
           </div>
         </div>
 
@@ -176,10 +172,8 @@
         </button>
       </div>
 
-      <!-- キャラクター一覧（初期カードUI） -->
-      <div id="trpgList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- JS生成 -->
-      </div>
+      <!-- キャラクター一覧 -->
+      <div id="trpgList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
     <!-- ==================== 3. Murder Mystery ==================== -->
@@ -198,10 +192,8 @@
         </button>
       </div>
 
-      <!-- Murder Mystery 一覧（初期カードUI） -->
-      <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- JS生成 -->
-      </div>
+      <!-- Murder Mystery 一覧 -->
+      <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
   </main>
@@ -231,8 +223,6 @@
           <label class="block text-slate-300 font-medium mb-1">自己紹介</label>
           <textarea id="inputProfBio" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
         </div>
-        
-        <!-- 動的リンク追加 -->
         <div>
           <div class="flex items-center justify-between mb-2">
             <label class="block text-slate-300 font-medium">SNS・連絡先リンク</label>
@@ -274,7 +264,7 @@
     </div>
   </div>
 
-  <!-- 予定追加モーダル（時間入力対応） -->
+  <!-- 予定追加モーダル -->
   <div id="modalSchedule" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
@@ -320,9 +310,7 @@
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-      <div id="dayScheduleItemsList" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-        <!-- JS生成 -->
-      </div>
+      <div id="dayScheduleItemsList" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar"></div>
       <div class="pt-2 flex justify-between items-center border-t border-slate-800">
         <button onclick="openScheduleModalFromDay()" class="admin-only text-xs px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium">
           <i class="fa-solid fa-plus mr-1"></i>この日に予定を追加
@@ -332,13 +320,24 @@
     </div>
   </div>
 
-  <!-- TRPG キャラクター追加・編集モーダル -->
+  <!-- TRPG キャラクター追加・編集モーダル（HO・ロスト追加） -->
   <div id="modalTrpg" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl p-6 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
-      <h3 class="text-lg font-bold text-white flex items-center gap-2">
-        <i class="fa-solid fa-dice-d20 text-purple-400"></i>
-        <span id="trpgModalTitle">TRPG キャラクター</span>
-      </h3>
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-dice-d20 text-purple-400"></i>
+          <span id="trpgModalTitle">TRPG キャラクター</span>
+        </h3>
+        <!-- ロスト切り替えチェックボックス -->
+        <label class="flex items-center gap-2 cursor-pointer bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 hover:border-rose-500/50 transition">
+          <input type="checkbox" id="inputTrpgIsLost" class="w-4 h-4 accent-rose-500 cursor-pointer">
+          <span class="text-xs font-bold text-rose-400 flex items-center gap-1">
+            <i class="fa-solid fa-skull"></i>
+            <span>ロスト</span>
+          </span>
+        </label>
+      </div>
+
       <input type="hidden" id="trpgEditId">
       <div class="space-y-4 text-sm">
         <div class="grid grid-cols-2 gap-4">
@@ -350,6 +349,12 @@
             <label class="block text-slate-300 font-medium mb-1">システム</label>
             <input type="text" id="inputTrpgSystem" placeholder="例: 新クトゥルフ / エモクロア" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
           </div>
+        </div>
+
+        <!-- HO入力欄 -->
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">HO (ハンドアウト・役職)</label>
+          <input type="text" id="inputTrpgHo" placeholder="例: HO1 登山家 / HO2 探偵" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
 
         <div>
@@ -439,15 +444,21 @@
     </div>
   </div>
 
-  <!-- キャラクター詳細閲覧モーダル（TRPG用：初期UIデザイン） -->
+  <!-- キャラクター詳細閲覧モーダル（TRPG用：HO・ロスト表示） -->
   <div id="modalCharDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-start justify-between">
         <div class="flex items-center gap-4">
           <img id="detailCharImg" src="" class="w-16 h-16 rounded-xl object-cover border border-purple-500/40">
           <div>
-            <span id="detailCharSystem" class="text-xs px-2.5 py-0.5 rounded-full bg-purple-600/30 text-purple-300 border border-purple-500/30 font-medium"></span>
-            <h3 id="detailCharName" class="text-2xl font-bold text-white mt-1"></h3>
+            <div class="flex items-center gap-2">
+              <span id="detailCharSystem" class="text-xs px-2.5 py-0.5 rounded-full bg-purple-600/30 text-purple-300 border border-purple-500/30 font-medium"></span>
+              <span id="detailCharLostBadge" class="hidden text-xs px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">
+                <i class="fa-solid fa-skull mr-1"></i>LOST
+              </span>
+            </div>
+            <div id="detailCharHo" class="text-xs text-purple-400 font-semibold mt-1"></div>
+            <h3 id="detailCharName" class="text-2xl font-bold text-white mt-0.5"></h3>
           </div>
         </div>
         <button onclick="closeModal('modalCharDetail')" class="text-slate-400 hover:text-white p-2">
@@ -515,9 +526,9 @@
   <!-- JavaScript -->
   <script>
     /* ==========================================================
-       1. データ管理 & 初期データ
+       1. データ管理
     ========================================================== */
-    const STORAGE_KEY = 'portal_site_data_v3';
+    const STORAGE_KEY = 'portal_site_data_v4';
     const ADMIN_STORAGE_KEY = 'portal_site_is_admin';
 
     const defaultData = {
@@ -543,6 +554,8 @@
           id: 1,
           name: "月読 怜",
           system: "新クトゥルフ",
+          ho: "HO1 登山家",
+          isLost: false,
           avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop",
           sheetUrl: "https://iachara.com",
           bio: "冷静沈着な民俗学者。オカルトや各地の伝承のフィールドワークが趣味。",
@@ -611,7 +624,7 @@
           isAdmin = true;
           localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
           applyAdminMode();
-          alert("管理者モードになりました。編集・追加・削除が行えます！");
+          alert("管理者モードになりました。編集・追加・削除・ロスト切り替えが行えます！");
         } else if (pass !== null) {
           alert("パスワードが違います。");
         }
@@ -741,7 +754,7 @@
       renderCalendar();
     }
 
-    // 日付別予定一覧・削除モーダル
+    // 日付別予定
     function openDayScheduleModal(dateStr) {
       selectedDayForModal = dateStr;
       document.getElementById('dayScheduleModalDate').innerText = `${dateStr} の予定`;
@@ -791,23 +804,33 @@
       }
     }
 
-    // TRPG 一覧（初期UI）
+    // TRPG 一覧（HO・ロスト対応）
     function renderTrpgList() {
       const container = document.getElementById('trpgList');
       container.innerHTML = '';
       siteData.trpgChars.forEach(char => {
+        const isLost = !!char.isLost;
         const card = document.createElement('div');
         card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-purple-500/40 transition flex flex-col";
         card.innerHTML = `
-          <div class="h-44 w-full bg-slate-800 relative cursor-pointer" onclick="viewCharDetail(${char.id})">
-            <img src="${char.avatar || 'https://via.placeholder.com/300'}" class="w-full h-full object-cover">
-            <span class="absolute top-3 left-3 px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-purple-500/30 text-purple-300 font-medium">
-              ${escapeHtml(char.system || 'TRPG')}
-            </span>
+          <div class="h-44 w-full bg-slate-800 relative cursor-pointer overflow-hidden" onclick="viewCharDetail(${char.id})">
+            <img src="${char.avatar || 'https://via.placeholder.com/300'}" class="w-full h-full object-cover transition duration-300 ${isLost ? 'char-lost-img' : ''}">
+            <div class="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+              <span class="px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-purple-500/30 text-purple-300 font-medium">
+                ${escapeHtml(char.system || 'TRPG')}
+              </span>
+              ${isLost ? `
+                <span class="px-2 py-0.5 text-[11px] rounded-full bg-rose-950/80 backdrop-blur border border-rose-500/50 text-rose-300 font-bold flex items-center gap-1">
+                  <i class="fa-solid fa-skull text-[10px]"></i>
+                  <span>LOST</span>
+                </span>
+              ` : ''}
+            </div>
           </div>
           <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
             <div>
-              <h3 class="text-lg font-bold text-white cursor-pointer hover:text-purple-400 transition" onclick="viewCharDetail(${char.id})">
+              ${char.ho ? `<div class="text-xs text-purple-400 font-semibold mb-0.5">${escapeHtml(char.ho)}</div>` : ''}
+              <h3 class="text-lg font-bold ${isLost ? 'text-slate-400 line-through' : 'text-white'} cursor-pointer hover:text-purple-400 transition" onclick="viewCharDetail(${char.id})">
                 ${escapeHtml(char.name)}
               </h3>
               <p class="text-xs text-slate-400 line-clamp-2 mt-1">${escapeHtml(char.bio || '')}</p>
@@ -818,10 +841,14 @@
                 <i class="fa-solid fa-chevron-right text-[10px]"></i>
               </button>
               <div class="flex items-center space-x-1">
-                <button onclick="editTrpgChar(${char.id})" class="admin-only p-1 text-slate-400 hover:text-slate-200 text-xs">
+                <!-- ロスト切り替えトグルボタン -->
+                <button onclick="toggleTrpgLost(${char.id})" class="admin-only px-1.5 py-0.5 rounded text-[10px] font-semibold transition ${isLost ? 'bg-rose-950/80 text-rose-300 border border-rose-500/40 hover:bg-rose-900' : 'bg-slate-800 text-slate-400 hover:text-rose-400'}" title="ロスト状態を切り替え">
+                  <i class="fa-solid fa-skull mr-0.5"></i>${isLost ? 'ロスト中' : '生存'}
+                </button>
+                <button onclick="editTrpgChar(${char.id})" class="admin-only p-1 text-slate-400 hover:text-slate-200 text-xs" title="編集">
                   <i class="fa-solid fa-pen"></i>
                 </button>
-                <button onclick="deleteTrpgChar(${char.id})" class="admin-only p-1 text-rose-400 hover:text-rose-300 text-xs">
+                <button onclick="deleteTrpgChar(${char.id})" class="admin-only p-1 text-rose-400 hover:text-rose-300 text-xs" title="削除">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -832,7 +859,16 @@
       });
     }
 
-    // Murder Mystery 一覧（初期UI）
+    // ロスト切り替えトグル関数
+    function toggleTrpgLost(id) {
+      const char = siteData.trpgChars.find(c => c.id === id);
+      if (!char) return;
+      char.isLost = !char.isLost;
+      saveData();
+      renderTrpgList();
+    }
+
+    // Murder Mystery 一覧
     function renderMurderMysteryList() {
       const container = document.getElementById('murderMysteryList');
       container.innerHTML = '';
@@ -893,7 +929,7 @@
       reader.readAsDataURL(inputElem.files[0]);
     }
 
-    // プロフィール編集
+    // プロフィール
     let tempProfAvatar = "";
     function openProfileModal() {
       const p = siteData.profile;
@@ -991,13 +1027,13 @@
       closeModal('modalSchedule');
     }
 
-    // ふせったー行追加
+    // ふせったー行
     function addFusetterLinkRow(containerId, label = '', url = '') {
       const c = document.getElementById(containerId);
       const row = document.createElement('div');
       row.className = "flex items-center gap-2 fusetter-row";
       row.innerHTML = `
-        <input type="text" placeholder="ラベル (例: ネタバレ感想)" value="${escapeHtml(label)}" class="w-1/3 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs fusetter-label">
+        <input type="text" placeholder="ラベル (例: 感想・ふせったー)" value="${escapeHtml(label)}" class="w-1/3 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs fusetter-label">
         <input type="url" placeholder="https://fse.tw/..." value="${escapeHtml(url)}" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs fusetter-url">
         <button type="button" onclick="this.parentElement.remove()" class="p-1.5 text-rose-400 hover:text-rose-300 text-xs">
           <i class="fa-solid fa-xmark"></i>
@@ -1006,13 +1042,15 @@
       c.appendChild(row);
     }
 
-    // TRPG キャラ作成・編集
+    // TRPG キャラ作成・編集（HO・ロスト対応）
     let tempTrpgImg = "";
     function openTrpgModal(editItem = null) {
       document.getElementById('trpgEditId').value = editItem ? editItem.id : '';
       document.getElementById('trpgModalTitle').innerText = editItem ? "キャラクター編集" : "キャラクター作成";
       document.getElementById('inputTrpgName').value = editItem ? editItem.name : '';
       document.getElementById('inputTrpgSystem').value = editItem ? editItem.system : '';
+      document.getElementById('inputTrpgHo').value = editItem ? (editItem.ho || '') : '';
+      document.getElementById('inputTrpgIsLost').checked = editItem ? !!editItem.isLost : false;
       document.getElementById('inputTrpgSheetUrl').value = editItem ? (editItem.sheetUrl || '') : '';
       document.getElementById('inputTrpgBio').value = editItem ? (editItem.bio || '') : '';
       
@@ -1054,6 +1092,8 @@
       const editId = document.getElementById('trpgEditId').value;
       const name = document.getElementById('inputTrpgName').value.trim();
       const system = document.getElementById('inputTrpgSystem').value.trim();
+      const ho = document.getElementById('inputTrpgHo').value.trim();
+      const isLost = document.getElementById('inputTrpgIsLost').checked;
       if (!name) return alert("名前を入力してください");
 
       const fusetters = [];
@@ -1067,6 +1107,8 @@
         id: editId ? Number(editId) : Date.now(),
         name,
         system,
+        ho,
+        isLost,
         avatar: tempTrpgImg || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop",
         sheetUrl: document.getElementById('inputTrpgSheetUrl').value.trim(),
         bio: document.getElementById('inputTrpgBio').value.trim(),
@@ -1085,6 +1127,7 @@
       closeModal('modalTrpg');
     }
 
+    // TRPG キャラ詳細表示（HO・ロスト対応）
     function viewCharDetail(id) {
       const c = siteData.trpgChars.find(item => item.id === id);
       if (!c) return;
@@ -1093,6 +1136,26 @@
       document.getElementById('detailCharSystem').innerText = c.system || 'TRPG';
       document.getElementById('detailCharImg').src = c.avatar || 'https://via.placeholder.com/150';
       document.getElementById('detailCharBio').innerText = c.bio || '設定の記述はありません。';
+
+      // ロスト状態の表示
+      const lostBadge = document.getElementById('detailCharLostBadge');
+      const imgElem = document.getElementById('detailCharImg');
+      if (c.isLost) {
+        lostBadge.classList.remove('hidden');
+        imgElem.classList.add('char-lost-img');
+      } else {
+        lostBadge.classList.add('hidden');
+        imgElem.classList.remove('char-lost-img');
+      }
+
+      // HO表示
+      const hoElem = document.getElementById('detailCharHo');
+      if (c.ho) {
+        hoElem.innerText = c.ho;
+        hoElem.classList.remove('hidden');
+      } else {
+        hoElem.classList.add('hidden');
+      }
 
       const sheetArea = document.getElementById('detailCharSheetArea');
       const sheetLink = document.getElementById('detailCharSheetUrl');
@@ -1252,7 +1315,7 @@
         .replace(/'/g, '&#039;');
     }
 
-    // 初期実行
+    // 初期化
     applyAdminMode();
     renderProfile();
     renderFriendCodes();
