@@ -572,8 +572,8 @@
           applyAdminMode();
         }
       } else {
-        const pass = prompt("管理者パスワードを入力してください（初期設定: admin）:");
-        if (pass === "admin" || pass === "1234") { // パスワードはお好みで変更してください
+        const pass = prompt("管理者パスワードを入力してください:");
+        if (pass === "Hima0132") { // パスワードはお好みで変更してください
           isAdmin = true;
           localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
           applyAdminMode();
