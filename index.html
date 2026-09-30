@@ -41,7 +41,6 @@
   <!-- ヘッダー -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <!-- 左上：マークなし・OTABE's site -->
       <div class="cursor-pointer" onclick="switchTab('home')">
         <span class="font-bold text-xl tracking-wider text-slate-100 hover:text-purple-400 transition">OTABE's site</span>
       </div>
@@ -252,8 +251,6 @@
     </section>
 
   </main>
-
-  <!-- ==================== 各種モーダル ==================== -->
 
   <!-- プロフィール編集モーダル -->
   <div id="modalProfile" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -588,7 +585,7 @@
     </div>
   </div>
 
-  <!-- TRPG キャラ詳細閲覧モーダル -->
+  <!-- 詳細閲覧モーダル各種 -->
   <div id="modalCharDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-start justify-between">
@@ -609,7 +606,6 @@
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
-
       <div class="space-y-4 text-sm text-slate-300">
         <div id="detailCharSheetArea">
           <a id="detailCharSheetUrl" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-purple-400 hover:text-purple-300 border border-slate-700 text-xs transition">
@@ -617,12 +613,10 @@
             <span>キャラクターシートを開く</span>
           </a>
         </div>
-
         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
           <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">性格・設定</h4>
           <p id="detailCharBio" class="whitespace-pre-wrap leading-relaxed text-slate-200"></p>
         </div>
-
         <div>
           <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <i class="fa-solid fa-comment-dots text-purple-400"></i>
@@ -634,7 +628,6 @@
     </div>
   </div>
 
-  <!-- Murder Mystery 詳細閲覧モーダル -->
   <div id="modalMmDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-start justify-between">
@@ -649,13 +642,11 @@
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
-
       <div class="space-y-4 text-sm text-slate-300">
         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
           <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">一言感想</h4>
           <p id="detailMmReview" class="whitespace-pre-wrap leading-relaxed text-slate-200"></p>
         </div>
-
         <div>
           <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <i class="fa-solid fa-lock text-purple-400"></i>
@@ -667,7 +658,6 @@
     </div>
   </div>
 
-  <!-- 脱出ゲーム 詳細閲覧モーダル -->
   <div id="modalEscapeDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-start justify-between">
@@ -685,18 +675,15 @@
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
-
       <div class="space-y-4 text-sm text-slate-300">
         <div class="grid grid-cols-2 gap-3 text-xs bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
           <div><span class="text-slate-400">参加日: </span><span id="detailEscapeDate" class="text-slate-200"></span></div>
           <div><span class="text-slate-400">チーム/記録: </span><span id="detailEscapeTeam" class="text-slate-200"></span></div>
         </div>
-
         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
           <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">感想</h4>
           <p id="detailEscapeReview" class="whitespace-pre-wrap leading-relaxed text-slate-200"></p>
         </div>
-
         <div>
           <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <i class="fa-solid fa-lock text-amber-400"></i>
@@ -708,16 +695,56 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- Firebase SDK & 連携スクリプト -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+    // ご提供いただいたFirebase設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyDE-1j-mTGG_zulgJjLcR8RwlCa0NNduzo",
+      authDomain: "otabe-portal.firebaseapp.com",
+      projectId: "otabe-portal",
+      storageBucket: "otabe-portal.firebasestorage.app",
+      messagingSenderId: "392247799972",
+      appId: "1:392247799972:web:effca820374440e9e83631",
+      measurementId: "G-HZK2YB80SE"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const docRef = doc(db, "portal", "mainData");
+
+    // グローバルにFirestore保存関数を公開
+    window.syncToFirebase = async function() {
+      try {
+        await setDoc(docRef, window.siteData);
+      } catch (err) {
+        console.error("Firebase保存エラー:", err);
+      }
+    };
+
+    // リアルタイム同期リスナー（どの端末で開いても最新データが降ってくる）
+    onSnapshot(docRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        window.siteData = { ...window.defaultData, ...data };
+        localStorage.setItem(window.STORAGE_KEY, JSON.stringify(window.siteData));
+        window.renderAll();
+      } else {
+        // クラウド上にデータがまだない場合はローカルのデータをアップロード
+        setDoc(docRef, window.siteData);
+      }
+    });
+  </script>
+
+  <!-- アプリ本体スクリプト -->
   <script>
-    /* ==========================================================
-       1. データ管理
-    ========================================================== */
-    const STORAGE_KEY = 'portal_site_data_v6';
+    const STORAGE_KEY = 'portal_site_data_v7';
     const ADMIN_STORAGE_KEY = 'portal_site_is_admin';
 
-    // パスワード「OREOTBTB」のSHA-256ハッシュ値（元の文字列は復元不能）
-    const ADMIN_PASSWORD_HASH = "3773f3901e9e5a2e2215af851a85bd692c6bf938013d1d19f5638127b40757f8";
+    // パスワード「OREOTBTB」のSHA-256ハッシュ値
+    const ADMIN_PASSWORD_HASH = "c1b48b6f3c50920dfa7bfe4be237a829143c7b8480ebf797dd24d5ba7a1b8089";
 
     async function sha256(text) {
       const msgBuffer = new TextEncoder().encode(text);
@@ -728,91 +755,63 @@
 
     const defaultData = {
       profile: {
-        name: "OTABE",
-        bio: "TRPG、マダミス、脱出ゲームの記録とキャラシート・感想まとめです。",
+        name: "おれおおたべ",
+        bio: "TRPG/マダミス/脱出ゲーム",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop",
         links: [
-          { title: "X (Twitter)", url: "https://x.com" },
-          { title: "Discord", url: "https://discord.gg" }
+          { title: "Twitter(main)", url: "https://x.com" },
+          { title: "Twitter(TRPG)", url: "https://x.com" },
+          { title: "Discord鯖", url: "https://discord.gg" }
         ]
       },
       friendCodes: [
-        { id: 1, platform: "Steam", code: "123456789" },
-        { id: 2, platform: "Nintendo Switch", code: "SW-0000-0000-0000" },
-        { id: 3, platform: "Discord", code: "user_name#0000" }
+        { id: 1, platform: "Steam", code: "1617710146" }
       ],
       schedules: [
-        { id: 1, date: "2026-10-15", time: "21:00", category: "trpg", role: "KP", title: "狂気山脈", note: "KP担当卓" },
-        { id: 2, date: "2026-10-20", time: "20:00", category: "mm", role: "PL", title: "名探偵は四人もいらない", note: "HO3担当" },
-        { id: 3, date: "2026-10-25", time: "14:00", category: "escape", role: "PL", title: "沈みゆく豪華客船からの脱出", note: "新宿現地" }
+        { id: 1, date: "2026-10-03", time: "15:00", category: "mm", role: "GM", title: "希望の園", note: "GM担当" },
+        { id: 2, date: "2026-10-10", time: "", category: "mm", role: "PL", title: "ウェンディ", note: "HO担当" },
+        { id: 3, date: "2026-10-18", time: "12:45", category: "escape", role: "PL", title: "真・脱出", note: "現地参加" }
       ],
-      trpgChars: [
-        {
-          id: 1,
-          name: "月読 怜",
-          system: "新クトゥルフ",
-          ho: "HO1 登山家",
-          isLost: false,
-          avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop",
-          sheetUrl: "https://iachara.com",
-          bio: "冷静沈着な民俗学者。オカルトや各地の伝承のフィールドワークが趣味。",
-          createdAt: 1,
-          fusetters: [
-            { label: "狂気山脈 通過後感想（ネタバレ）", url: "https://fse.tw" }
-          ]
-        }
-      ],
-      murderMysteries: [
-        {
-          id: 1,
-          scenario: "狂気山脈 陰謀の分水嶺",
-          character: "登山家",
-          image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300&h=300&fit=crop",
-          review: "非常に熱い議論ができました！最高の体験でした。",
-          createdAt: 1,
-          fusetters: [
-            { label: "通過後ネタバレ感想ふせったー", url: "https://fse.tw" }
-          ]
-        }
-      ],
-      escapes: [
-        {
-          id: 1,
-          title: "ある牢獄からの脱出",
-          type: "real",
-          result: "success",
-          date: "2026-09-10",
-          team: "4人 / 残り45秒で脱出成功！",
-          image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&h=300&fit=crop",
-          review: "ルーム型特有の探索がめちゃくちゃ面白かった！",
-          createdAt: 1,
-          fusetters: [
-            { label: "謎解きネタバレ感想", url: "https://fse.tw" }
-          ]
-        }
-      ]
+      trpgChars: [],
+      murderMysteries: [],
+      escapes: []
     };
 
-    function loadData() {
+    function loadLocalData() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return defaultData;
       try {
         const parsed = JSON.parse(saved);
-        if (!parsed.escapes) parsed.escapes = defaultData.escapes;
-        return parsed;
+        return { ...defaultData, ...parsed };
       } catch (e) {
         return defaultData;
       }
     }
 
-    let siteData = loadData();
+    window.defaultData = defaultData;
+    window.STORAGE_KEY = STORAGE_KEY;
+    window.siteData = loadLocalData();
 
+    // データ保存関数（ブラウザ保存 + Firebase自動送信）
     function saveData() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(siteData));
+      if (window.syncToFirebase) {
+        window.syncToFirebase();
+      }
     }
 
+    function renderAll() {
+      renderProfile();
+      renderFriendCodes();
+      renderCalendar();
+      renderTrpgList();
+      renderMurderMysteryList();
+      renderEscapeList();
+    }
+    window.renderAll = renderAll;
+
     /* ==========================================================
-       2. 安全な管理者認証判定（SHA-256）
+       管理者認証判定
     ========================================================== */
     const urlParams = new URLSearchParams(window.location.search);
     let isAdmin = urlParams.get('admin') === 'true' || localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
@@ -839,22 +838,18 @@
         const pass = prompt("管理者パスワードを入力してください:");
         if (!pass) return;
 
-        // 入力パスワードをハッシュ化して照合
         const inputHash = await sha256(pass);
         if (inputHash === ADMIN_PASSWORD_HASH) {
           isAdmin = true;
           localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
           applyAdminMode();
-          alert("管理者モードになりました。編集・追加・削除が行えます！");
+          alert("管理者モードになりました。クラウドへ自動保存されます！");
         } else {
           alert("パスワードが違います。");
         }
       }
     }
 
-    /* ==========================================================
-       3. タブ切り替え
-    ========================================================== */
     function switchTab(tabId) {
       ['home', 'trpg', 'murder-mystery', 'escape'].forEach(id => {
         const view = document.getElementById(`view-${id}`);
@@ -870,11 +865,10 @@
     }
 
     /* ==========================================================
-       4. レンダリング処理
+       各レンダリング処理
     ========================================================== */
-    // プロフィール
     function renderProfile() {
-      const p = siteData.profile;
+      const p = siteData.profile || {};
       document.getElementById('profName').innerText = p.name || "OTABE";
       document.getElementById('profBio').innerText = p.bio || "";
       document.getElementById('profAvatar').src = p.avatar || "https://via.placeholder.com/150";
@@ -893,11 +887,10 @@
       });
     }
 
-    // フレンドコード
     function renderFriendCodes() {
       const container = document.getElementById('friendCodesList');
       container.innerHTML = '';
-      siteData.friendCodes.forEach(item => {
+      (siteData.friendCodes || []).forEach(item => {
         const el = document.createElement('div');
         el.className = "bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between hover:border-slate-700 transition";
         el.innerHTML = `
@@ -923,7 +916,6 @@
       });
     }
 
-    // カレンダー
     let curDate = new Date();
     let selectedDayForModal = "";
 
@@ -967,7 +959,7 @@
 
       for (let d = 1; d <= lastDate; d++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const dayScheds = siteData.schedules.filter(s => s.date === dateStr);
+        const dayScheds = (siteData.schedules || []).filter(s => s.date === dateStr);
 
         const cell = document.createElement('div');
         cell.className = "h-20 bg-slate-800/40 rounded-lg border border-slate-800/80 p-1 flex flex-col overflow-hidden text-xs hover:border-purple-500/40 transition cursor-pointer";
@@ -1007,7 +999,7 @@
       const listContainer = document.getElementById('dayScheduleItemsList');
       listContainer.innerHTML = '';
 
-      const items = siteData.schedules.filter(s => s.date === dateStr);
+      const items = (siteData.schedules || []).filter(s => s.date === dateStr);
       if (items.length === 0) {
         listContainer.innerHTML = `<div class="text-xs text-slate-500 text-center py-4">この日の予定はありません</div>`;
       } else {
@@ -1047,7 +1039,7 @@
 
     function deleteSchedule(id) {
       if (!confirm("この予定を削除しますか？")) return;
-      siteData.schedules = siteData.schedules.filter(s => s.id !== id);
+      siteData.schedules = (siteData.schedules || []).filter(s => s.id !== id);
       saveData();
       renderCalendar();
       if (selectedDayForModal) {
@@ -1055,13 +1047,12 @@
       }
     }
 
-    // TRPG 一覧
     function renderTrpgList() {
       const container = document.getElementById('trpgList');
       container.innerHTML = '';
 
       const sortMode = document.getElementById('trpgSortSelect')?.value || 'newest';
-      let list = [...siteData.trpgChars];
+      let list = [...(siteData.trpgChars || [])];
 
       if (sortMode === 'newest') list.sort((a, b) => (b.id - a.id));
       else if (sortMode === 'oldest') list.sort((a, b) => (a.id - b.id));
@@ -1120,20 +1111,19 @@
     }
 
     function toggleTrpgLost(id) {
-      const char = siteData.trpgChars.find(c => c.id === id);
+      const char = (siteData.trpgChars || []).find(c => c.id === id);
       if (!char) return;
       char.isLost = !char.isLost;
       saveData();
       renderTrpgList();
     }
 
-    // Murder Mystery 一覧
     function renderMurderMysteryList() {
       const container = document.getElementById('murderMysteryList');
       container.innerHTML = '';
 
       const sortMode = document.getElementById('mmSortSelect')?.value || 'newest';
-      let list = [...siteData.murderMysteries];
+      let list = [...(siteData.murderMysteries || [])];
 
       if (sortMode === 'newest') list.sort((a, b) => (b.id - a.id));
       else if (sortMode === 'oldest') list.sort((a, b) => (a.id - b.id));
@@ -1177,7 +1167,6 @@
       });
     }
 
-    // 脱出ゲーム 一覧
     function renderEscapeList() {
       const container = document.getElementById('escapeList');
       container.innerHTML = '';
@@ -1240,7 +1229,7 @@
     }
 
     /* ==========================================================
-       5. フォーム・保存・詳細表示
+       フォーム・モーダル補助
     ========================================================== */
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -1258,10 +1247,9 @@
       reader.readAsDataURL(inputElem.files[0]);
     }
 
-    // プロフィール
     let tempProfAvatar = "";
     function openProfileModal() {
-      const p = siteData.profile;
+      const p = siteData.profile || {};
       document.getElementById('inputProfName').value = p.name || '';
       document.getElementById('inputProfBio').value = p.bio || '';
       document.getElementById('previewProfAvatar').src = p.avatar || '';
@@ -1314,7 +1302,6 @@
       closeModal('modalProfile');
     }
 
-    // フレンドコード
     function openFriendCodeModal() {
       document.getElementById('inputFcPlatform').value = '';
       document.getElementById('inputFcCode').value = '';
@@ -1325,6 +1312,7 @@
       const code = document.getElementById('inputFcCode').value.trim();
       if (!platform || !code) return alert("項目を入力してください");
 
+      if (!siteData.friendCodes) siteData.friendCodes = [];
       siteData.friendCodes.push({ id: Date.now(), platform, code });
       saveData();
       renderFriendCodes();
@@ -1332,12 +1320,11 @@
     }
     function deleteFriendCode(id) {
       if (!confirm("削除しますか？")) return;
-      siteData.friendCodes = siteData.friendCodes.filter(f => f.id !== id);
+      siteData.friendCodes = (siteData.friendCodes || []).filter(f => f.id !== id);
       saveData();
       renderFriendCodes();
     }
 
-    // カレンダー
     function openScheduleModal() {
       document.getElementById('inputSchedCategory').value = 'trpg';
       document.getElementById('inputSchedRole').value = 'PL';
@@ -1354,13 +1341,13 @@
       const note = document.getElementById('inputSchedNote').value.trim();
       if (!date || !title) return alert("日付とタイトルを入力してください");
 
+      if (!siteData.schedules) siteData.schedules = [];
       siteData.schedules.push({ id: Date.now(), category, role, date, time, title, note });
       saveData();
       renderCalendar();
       closeModal('modalSchedule');
     }
 
-    // ふせったー行
     function addFusetterLinkRow(containerId, label = '', url = '') {
       const c = document.getElementById(containerId);
       const row = document.createElement('div');
@@ -1375,7 +1362,6 @@
       c.appendChild(row);
     }
 
-    // TRPG
     let tempTrpgImg = "";
     function openTrpgModal(editItem = null) {
       document.getElementById('trpgEditId').value = editItem ? editItem.id : '';
@@ -1410,13 +1396,13 @@
     }
 
     function editTrpgChar(id) {
-      const item = siteData.trpgChars.find(c => c.id === id);
+      const item = (siteData.trpgChars || []).find(c => c.id === id);
       if (item) openTrpgModal(item);
     }
 
     function deleteTrpgChar(id) {
       if (!confirm("このキャラクターを削除しますか？")) return;
-      siteData.trpgChars = siteData.trpgChars.filter(c => c.id !== id);
+      siteData.trpgChars = (siteData.trpgChars || []).filter(c => c.id !== id);
       saveData();
       renderTrpgList();
     }
@@ -1448,6 +1434,7 @@
         fusetters
       };
 
+      if (!siteData.trpgChars) siteData.trpgChars = [];
       if (editId) {
         const idx = siteData.trpgChars.findIndex(c => c.id === Number(editId));
         if (idx !== -1) siteData.trpgChars[idx] = charObj;
@@ -1461,7 +1448,7 @@
     }
 
     function viewCharDetail(id) {
-      const c = siteData.trpgChars.find(item => item.id === id);
+      const c = (siteData.trpgChars || []).find(item => item.id === id);
       if (!c) return;
 
       document.getElementById('detailCharName').innerText = c.name;
@@ -1515,7 +1502,6 @@
       openModal('modalCharDetail');
     }
 
-    // Murder Mystery
     let tempMmImg = "";
     function openMurderMysteryModal(editItem = null) {
       document.getElementById('mmEditId').value = editItem ? editItem.id : '';
@@ -1547,13 +1533,13 @@
     }
 
     function editMurderMystery(id) {
-      const item = siteData.murderMysteries.find(m => m.id === id);
+      const item = (siteData.murderMysteries || []).find(m => m.id === id);
       if (item) openMurderMysteryModal(item);
     }
 
     function deleteMurderMystery(id) {
       if (!confirm("この記録を削除しますか？")) return;
-      siteData.murderMysteries = siteData.murderMysteries.filter(m => m.id !== id);
+      siteData.murderMysteries = (siteData.murderMysteries || []).filter(m => m.id !== id);
       saveData();
       renderMurderMysteryList();
     }
@@ -1580,6 +1566,7 @@
         fusetters
       };
 
+      if (!siteData.murderMysteries) siteData.murderMysteries = [];
       if (editId) {
         const idx = siteData.murderMysteries.findIndex(m => m.id === Number(editId));
         if (idx !== -1) siteData.murderMysteries[idx] = mmObj;
@@ -1593,7 +1580,7 @@
     }
 
     function viewMmDetail(id) {
-      const mm = siteData.murderMysteries.find(m => m.id === id);
+      const mm = (siteData.murderMysteries || []).find(m => m.id === id);
       if (!mm) return;
 
       document.getElementById('detailMmScenario').innerText = mm.scenario;
@@ -1620,7 +1607,6 @@
       openModal('modalMmDetail');
     }
 
-    // 脱出ゲーム
     let tempEscapeImg = "";
     function openEscapeModal(editItem = null) {
       document.getElementById('escapeEditId').value = editItem ? editItem.id : '';
@@ -1748,9 +1734,6 @@
       openModal('modalEscapeDetail');
     }
 
-    /* ==========================================================
-       6. ユーティリティ
-    ========================================================== */
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(() => {
         alert("コードをコピーしました: " + text);
@@ -1767,14 +1750,8 @@
         .replace(/'/g, '&#039;');
     }
 
-    // 初期化
     applyAdminMode();
-    renderProfile();
-    renderFriendCodes();
-    renderCalendar();
-    renderTrpgList();
-    renderMurderMysteryList();
-    renderEscapeList();
+    renderAll();
   </script>
 </body>
 </html>
