@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MY PORTAL | TRPG & Murder Mystery</title>
+  <title>OTABE's site</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome -->
@@ -22,7 +22,6 @@
       background-color: #334155;
       border-radius: 9999px;
     }
-    /* 管理者専用表示制御 */
     .admin-only {
       display: none !important;
     }
@@ -32,9 +31,8 @@
     body.is-admin div.admin-only-block {
       display: block !important;
     }
-    /* ロストキャラクター用スタイル */
     .char-lost-img {
-      filter: grayscale(100%) brightness(0.7);
+      filter: grayscale(100%) brightness(0.65);
     }
   </style>
 </head>
@@ -43,30 +41,33 @@
   <!-- ヘッダー -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
-          <i class="fa-solid fa-dice-d20 text-white text-xl"></i>
-        </div>
-        <span class="font-bold text-lg tracking-wider text-slate-100" id="headerName">PORTAL</span>
+      <!-- 左上：マーク削除、OTABE's site に変更 -->
+      <div class="cursor-pointer" onclick="switchTab('home')">
+        <span class="font-bold text-xl tracking-wider text-slate-100 hover:text-purple-400 transition">OTABE's site</span>
       </div>
 
       <!-- メインタブボタン -->
-      <nav class="flex items-center space-x-2">
-        <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 bg-purple-600/20 text-purple-300 border border-purple-500/30">
+      <nav class="flex items-center space-x-2 overflow-x-auto custom-scrollbar py-2">
+        <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 bg-purple-600/20 text-purple-300 border border-purple-500/30 whitespace-nowrap">
           <i class="fa-solid fa-house"></i>
           <span>ホーム</span>
         </button>
-        <button onclick="switchTab('trpg')" id="tab-trpg" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+        <button onclick="switchTab('trpg')" id="tab-trpg" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">
           <i class="fa-solid fa-dice-d20"></i>
           <span>TRPG</span>
         </button>
-        <button onclick="switchTab('murder-mystery')" id="tab-murder-mystery" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+        <button onclick="switchTab('murder-mystery')" id="tab-murder-mystery" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">
           <i class="fa-solid fa-shield-halved"></i>
           <span>Murder Mystery</span>
         </button>
+        <!-- 脱出ゲームタブ追加 -->
+        <button onclick="switchTab('escape')" id="tab-escape" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">
+          <i class="fa-solid fa-key"></i>
+          <span>脱出ゲーム</span>
+        </button>
 
         <!-- 管理者ログイン / 閲覧モード切り替えボタン -->
-        <div class="pl-4 border-l border-slate-800 ml-2">
+        <div class="pl-3 border-l border-slate-800 ml-1">
           <button onclick="toggleAdminPrompt()" id="adminToggleBtn" title="管理モード切替" class="p-2 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-slate-800 transition">
             <i class="fa-solid fa-lock" id="adminLockIcon"></i>
           </button>
@@ -89,12 +90,12 @@
           </div>
           <div class="flex-1 text-center md:text-left space-y-3">
             <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <h1 class="text-2xl font-bold text-white tracking-wide" id="profName">PLAYER NAME</h1>
+              <h1 class="text-2xl font-bold text-white tracking-wide" id="profName">OTABE</h1>
               <button onclick="openProfileModal()" class="admin-only text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition">
                 <i class="fa-solid fa-pen text-[10px] mr-1"></i>プロフィール編集
               </button>
             </div>
-            <p class="text-slate-400 text-sm max-w-2xl leading-relaxed whitespace-pre-wrap" id="profBio">TRPGとマーダーミステリーを楽しんでいます。キャラクターや通過シナリオのまとめ用ポータルです。</p>
+            <p class="text-slate-400 text-sm max-w-2xl leading-relaxed whitespace-pre-wrap" id="profBio">TRPG、マダミス、脱出ゲームの記録とキャラシート・感想まとめです。</p>
             
             <!-- SNS・連絡先リンク -->
             <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-2" id="profLinksContainer"></div>
@@ -121,12 +122,19 @@
 
         <!-- カレンダー -->
         <div class="lg:col-span-7 space-y-4">
-          <div class="flex items-center justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2">
               <i class="fa-solid fa-calendar-days text-purple-400"></i>
               <span id="calendarMonthTitle">予定カレンダー</span>
             </h2>
+            
             <div class="flex items-center space-x-2">
+              <!-- 凡例 -->
+              <div class="hidden sm:flex items-center gap-2 text-[10px] mr-2 text-slate-400">
+                <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded bg-emerald-500"></span>TRPG</span>
+                <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded bg-purple-500"></span>マダミス</span>
+                <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded bg-amber-500"></span>脱出</span>
+              </div>
               <button onclick="changeMonth(-1)" class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
               </button>
@@ -161,15 +169,27 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-dice-d20 text-purple-400"></i>
+            <i class="fa-solid fa-dice-d20 text-emerald-400"></i>
             <span>TRPG キャラクター一覧</span>
           </h2>
           <p class="text-xs text-slate-400 mt-1">作成した探索者・キャラクターの設定とふせったー感想リンク集</p>
         </div>
-        <button onclick="openTrpgModal()" class="admin-only self-start sm:self-auto px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2">
-          <i class="fa-solid fa-plus"></i>
-          <span>キャラクター作成</span>
-        </button>
+        
+        <div class="flex items-center gap-3">
+          <!-- 並び替え・絞り込み -->
+          <select id="trpgSortSelect" onchange="renderTrpgList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
+            <option value="newest">新しい順</option>
+            <option value="oldest">古い順</option>
+            <option value="name">名前順</option>
+            <option value="alive">生存のみ</option>
+            <option value="lost">ロストのみ</option>
+          </select>
+
+          <button onclick="openTrpgModal()" class="admin-only px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-plus"></i>
+            <span>キャラクター作成</span>
+          </button>
+        </div>
       </div>
 
       <!-- キャラクター一覧 -->
@@ -186,19 +206,62 @@
           </h2>
           <p class="text-xs text-slate-400 mt-1">通過したMurder Mysteryシナリオ・担当キャラクターと感想まとめ</p>
         </div>
-        <button onclick="openMurderMysteryModal()" class="admin-only self-start sm:self-auto px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2">
-          <i class="fa-solid fa-plus"></i>
-          <span>シナリオ記録の追加</span>
-        </button>
+
+        <div class="flex items-center gap-3">
+          <!-- 並び替え -->
+          <select id="mmSortSelect" onchange="renderMurderMysteryList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
+            <option value="newest">新しい順</option>
+            <option value="oldest">古い順</option>
+            <option value="scenario">タイトル順</option>
+          </select>
+
+          <button onclick="openMurderMysteryModal()" class="admin-only px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-plus"></i>
+            <span>シナリオ記録の追加</span>
+          </button>
+        </div>
       </div>
 
       <!-- Murder Mystery 一覧 -->
       <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
+    <!-- ==================== 4. 脱出ゲーム ==================== -->
+    <section id="view-escape" class="hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-key text-amber-400"></i>
+            <span>脱出ゲーム 参加記録</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">リアル・オンライン脱出ゲームの戦績（成功／失敗）と感想まとめ</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- 並び替え・絞り込み -->
+          <select id="escapeSortSelect" onchange="renderEscapeList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
+            <option value="newest">新しい順</option>
+            <option value="oldest">古い順</option>
+            <option value="success">成功のみ</option>
+            <option value="failure">失敗のみ</option>
+            <option value="real">リアル脱出のみ</option>
+            <option value="online">オンラインのみ</option>
+          </select>
+
+          <button onclick="openEscapeModal()" class="admin-only px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium shadow-lg shadow-amber-600/30 transition flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-plus"></i>
+            <span>脱出ゲーム記録の追加</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 脱出ゲーム一覧 -->
+      <div id="escapeList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
   </main>
 
-  <!-- ==================== モーダル各種 ==================== -->
+  <!-- ==================== 各種モーダル ==================== -->
 
   <!-- プロフィール編集モーダル -->
   <div id="modalProfile" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -264,14 +327,34 @@
     </div>
   </div>
 
-  <!-- 予定追加モーダル -->
+  <!-- 予定追加モーダル（ジャンル・役職対応） -->
   <div id="modalSchedule" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
         <i class="fa-solid fa-calendar-plus text-purple-400"></i>
-        <span>セッション予定追加</span>
+        <span>予定追加</span>
       </h3>
       <div class="space-y-3 text-sm">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">ジャンル</label>
+            <select id="inputSchedCategory" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs">
+              <option value="trpg">TRPG (緑)</option>
+              <option value="mm">マダミス (紫)</option>
+              <option value="escape">脱出ゲーム (橙)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">役職 / ポジション</label>
+            <select id="inputSchedRole" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs">
+              <option value="PL">PL</option>
+              <option value="KP">KP (進行役/強調)</option>
+              <option value="GM">GM (進行役/強調)</option>
+              <option value="KPC">KPC</option>
+            </select>
+          </div>
+        </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-slate-300 font-medium mb-1">日付</label>
@@ -282,13 +365,14 @@
             <input type="time" id="inputSchedTime" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs">
           </div>
         </div>
+
         <div>
-          <label class="block text-slate-300 font-medium mb-1">シナリオ・卓名</label>
-          <input type="text" id="inputSchedTitle" placeholder="例: 狂気山脈 卓" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <label class="block text-slate-300 font-medium mb-1">シナリオ・公演・卓名</label>
+          <input type="text" id="inputSchedTitle" placeholder="例: 狂気山脈" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
         <div>
-          <label class="block text-slate-300 font-medium mb-1">メモ (KP・メンバー等)</label>
-          <input type="text" id="inputSchedNote" placeholder="例: KP: ○○さん" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <label class="block text-slate-300 font-medium mb-1">メモ (メンバー、場所など)</label>
+          <input type="text" id="inputSchedNote" placeholder="例: 〇〇卓 / 東京ミステリーサーカス" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
@@ -310,7 +394,7 @@
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-      <div id="dayScheduleItemsList" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar"></div>
+      <div id="dayScheduleItemsList" class="space-y-2 max-h-64 overflow-y-auto custom-scrollbar"></div>
       <div class="pt-2 flex justify-between items-center border-t border-slate-800">
         <button onclick="openScheduleModalFromDay()" class="admin-only text-xs px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium">
           <i class="fa-solid fa-plus mr-1"></i>この日に予定を追加
@@ -320,15 +404,14 @@
     </div>
   </div>
 
-  <!-- TRPG キャラクター追加・編集モーダル（HO・ロスト追加） -->
+  <!-- TRPG キャラクター追加・編集モーダル -->
   <div id="modalTrpg" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl p-6 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-dice-d20 text-purple-400"></i>
+          <i class="fa-solid fa-dice-d20 text-emerald-400"></i>
           <span id="trpgModalTitle">TRPG キャラクター</span>
         </h3>
-        <!-- ロスト切り替えチェックボックス -->
         <label class="flex items-center gap-2 cursor-pointer bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 hover:border-rose-500/50 transition">
           <input type="checkbox" id="inputTrpgIsLost" class="w-4 h-4 accent-rose-500 cursor-pointer">
           <span class="text-xs font-bold text-rose-400 flex items-center gap-1">
@@ -351,10 +434,9 @@
           </div>
         </div>
 
-        <!-- HO入力欄 -->
         <div>
           <label class="block text-slate-300 font-medium mb-1">HO (ハンドアウト・役職)</label>
-          <input type="text" id="inputTrpgHo" placeholder="例: HO1 登山家 / HO2 探偵" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <input type="text" id="inputTrpgHo" placeholder="例: HO1 登山家" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
 
         <div>
@@ -372,7 +454,7 @@
 
         <div>
           <label class="block text-slate-300 font-medium mb-1">性格・特徴・設定</label>
-          <textarea id="inputTrpgBio" rows="4" placeholder="性格や裏設定などを自由に記入" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
+          <textarea id="inputTrpgBio" rows="4" placeholder="性格や裏設定などを記入" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
         </div>
 
         <!-- ふせったーリンク集 -->
@@ -426,7 +508,6 @@
           <textarea id="inputMmReview" rows="2" placeholder="公開できる簡単な一言感想" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
         </div>
 
-        <!-- ふせったーリンク集 -->
         <div>
           <div class="flex items-center justify-between mb-2">
             <label class="block text-slate-300 font-medium">ふせったー等のネタバレ感想URL</label>
@@ -444,7 +525,79 @@
     </div>
   </div>
 
-  <!-- キャラクター詳細閲覧モーダル（TRPG用：HO・ロスト表示） -->
+  <!-- 脱出ゲーム 追加・編集モーダル -->
+  <div id="modalEscape" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl p-6 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-key text-amber-400"></i>
+        <span id="escapeModalTitle">脱出ゲーム 記録</span>
+      </h3>
+      <input type="hidden" id="escapeEditId">
+      <div class="space-y-4 text-sm">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">公演・タイトル名</label>
+            <input type="text" id="inputEscapeTitle" placeholder="例: ある牢獄からの脱出" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">形式</label>
+            <select id="inputEscapeType" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+              <option value="real">リアル脱出ゲーム</option>
+              <option value="online">オンライン脱出ゲーム</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">結果</label>
+            <select id="inputEscapeResult" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+              <option value="success">脱出成功 (SUCCESS)</option>
+              <option value="failure">脱出失敗 (FAILED)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-medium mb-1">参加日</label>
+            <input type="date" id="inputEscapeDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">画像 (看板・成功ステッカーなど)</label>
+          <div class="flex items-center gap-3">
+            <img id="previewEscapeImg" src="" class="w-14 h-14 rounded-lg object-cover bg-slate-800 border border-slate-700 hidden">
+            <input type="file" id="inputEscapeImgFile" accept="image/*" class="text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 cursor-pointer">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">チーム / メモ (残り時間など)</label>
+          <input type="text" id="inputEscapeTeam" placeholder="例: 4人チーム / 残り1分30秒で脱出" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">一言感想 (ネタバレなし)</label>
+          <textarea id="inputEscapeReview" rows="2" placeholder="公開できる感想を記入" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-slate-300 font-medium">ふせったー等のネタバレ感想URL</label>
+            <button type="button" onclick="addFusetterLinkRow('escapeFusetterList')" class="text-xs text-amber-400 hover:text-amber-300">
+              <i class="fa-solid fa-plus mr-1"></i>URL追加
+            </button>
+          </div>
+          <div id="escapeFusetterList" class="space-y-2"></div>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
+        <button onclick="closeModal('modalEscape')" class="px-4 py-2 rounded-lg text-slate-400 hover:bg-slate-800 text-sm">キャンセル</button>
+        <button onclick="saveEscape()" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRPG キャラ詳細閲覧モーダル -->
   <div id="modalCharDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-start justify-between">
@@ -452,7 +605,7 @@
           <img id="detailCharImg" src="" class="w-16 h-16 rounded-xl object-cover border border-purple-500/40">
           <div>
             <div class="flex items-center gap-2">
-              <span id="detailCharSystem" class="text-xs px-2.5 py-0.5 rounded-full bg-purple-600/30 text-purple-300 border border-purple-500/30 font-medium"></span>
+              <span id="detailCharSystem" class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-medium"></span>
               <span id="detailCharLostBadge" class="hidden text-xs px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">
                 <i class="fa-solid fa-skull mr-1"></i>LOST
               </span>
@@ -523,18 +676,59 @@
     </div>
   </div>
 
+  <!-- 脱出ゲーム 詳細閲覧モーダル -->
+  <div id="modalEscapeDetail" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-4">
+          <img id="detailEscapeImg" src="" class="w-16 h-16 rounded-xl object-cover border border-amber-500/40">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="detailEscapeType" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium"></span>
+              <span id="detailEscapeResultBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+            </div>
+            <h3 id="detailEscapeTitle" class="text-2xl font-bold text-white mt-1"></h3>
+          </div>
+        </div>
+        <button onclick="closeModal('modalEscapeDetail')" class="text-slate-400 hover:text-white p-2">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-sm text-slate-300">
+        <div class="grid grid-cols-2 gap-3 text-xs bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+          <div><span class="text-slate-400">参加日: </span><span id="detailEscapeDate" class="text-slate-200"></span></div>
+          <div><span class="text-slate-400">チーム/記録: </span><span id="detailEscapeTeam" class="text-slate-200"></span></div>
+        </div>
+
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">感想</h4>
+          <p id="detailEscapeReview" class="whitespace-pre-wrap leading-relaxed text-slate-200"></p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-amber-400"></i>
+            <span>ネタバレ感想・ふせったー一覧</span>
+          </h4>
+          <div id="detailEscapeFusetterList" class="space-y-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript -->
   <script>
     /* ==========================================================
        1. データ管理
     ========================================================== */
-    const STORAGE_KEY = 'portal_site_data_v4';
+    const STORAGE_KEY = 'portal_site_data_v5';
     const ADMIN_STORAGE_KEY = 'portal_site_is_admin';
 
     const defaultData = {
       profile: {
-        name: "陽葵",
-        bio: "TRPGとマーダーミステリーを楽しんでいます。\n通過シナリオやキャラクターのまとめです。",
+        name: "OTABE",
+        bio: "TRPG、マダミス、脱出ゲームの記録とキャラシート・感想まとめです。",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop",
         links: [
           { title: "X (Twitter)", url: "https://x.com" },
@@ -547,7 +741,9 @@
         { id: 3, platform: "Discord", code: "user_name#0000" }
       ],
       schedules: [
-        { id: 1, date: "2026-10-15", time: "21:00", title: "狂気山脈", note: "KP:〇〇さん" }
+        { id: 1, date: "2026-10-15", time: "21:00", category: "trpg", role: "KP", title: "狂気山脈", note: "KP担当卓" },
+        { id: 2, date: "2026-10-20", time: "20:00", category: "mm", role: "PL", title: "名探偵は四人もいらない", note: "HO3担当" },
+        { id: 3, date: "2026-10-25", time: "14:00", category: "escape", role: "PL", title: "沈みゆく豪華客船からの脱出", note: "新宿現地" }
       ],
       trpgChars: [
         {
@@ -559,6 +755,7 @@
           avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop",
           sheetUrl: "https://iachara.com",
           bio: "冷静沈着な民俗学者。オカルトや各地の伝承のフィールドワークが趣味。",
+          createdAt: 1,
           fusetters: [
             { label: "狂気山脈 通過後感想（ネタバレ）", url: "https://fse.tw" }
           ]
@@ -571,8 +768,25 @@
           character: "登山家",
           image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300&h=300&fit=crop",
           review: "非常に熱い議論ができました！最高の体験でした。",
+          createdAt: 1,
           fusetters: [
             { label: "通過後ネタバレ感想ふせったー", url: "https://fse.tw" }
+          ]
+        }
+      ],
+      escapes: [
+        {
+          id: 1,
+          title: "ある牢獄からの脱出",
+          type: "real",
+          result: "success",
+          date: "2026-09-10",
+          team: "4人 / 残り45秒で脱出成功！",
+          image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&h=300&fit=crop",
+          review: "ルーム型特有の探索がめちゃくちゃ面白かった！",
+          createdAt: 1,
+          fusetters: [
+            { label: "謎解きネタバレ感想", url: "https://fse.tw" }
           ]
         }
       ]
@@ -582,7 +796,9 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return defaultData;
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (!parsed.escapes) parsed.escapes = defaultData.escapes;
+        return parsed;
       } catch (e) {
         return defaultData;
       }
@@ -620,11 +836,11 @@
         }
       } else {
         const pass = prompt("管理者パスワードを入力してください:");
-        if (pass === "Hima0132") {
+        if (pass === "Hakupoko") {
           isAdmin = true;
           localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
           applyAdminMode();
-          alert("管理者モードになりました。編集・追加・削除・ロスト切り替えが行えます！");
+          alert("管理者モードになりました。編集・追加・削除が行えます！");
         } else if (pass !== null) {
           alert("パスワードが違います。");
         }
@@ -635,15 +851,15 @@
        3. タブ切り替え
     ========================================================== */
     function switchTab(tabId) {
-      ['home', 'trpg', 'murder-mystery'].forEach(id => {
+      ['home', 'trpg', 'murder-mystery', 'escape'].forEach(id => {
         const view = document.getElementById(`view-${id}`);
         const btn = document.getElementById(`tab-${id}`);
         if (id === tabId) {
           view.classList.remove('hidden');
-          btn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 bg-purple-600/20 text-purple-300 border border-purple-500/30";
+          btn.className = "tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 bg-purple-600/20 text-purple-300 border border-purple-500/30 whitespace-nowrap";
         } else {
           view.classList.add('hidden');
-          btn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800";
+          btn.className = "tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap";
         }
       });
     }
@@ -654,8 +870,7 @@
     // プロフィール
     function renderProfile() {
       const p = siteData.profile;
-      document.getElementById('profName').innerText = p.name || "PLAYER";
-      document.getElementById('headerName').innerText = (p.name || "PORTAL") + " PORTAL";
+      document.getElementById('profName').innerText = p.name || "OTABE";
       document.getElementById('profBio').innerText = p.bio || "";
       document.getElementById('profAvatar').src = p.avatar || "https://via.placeholder.com/150";
 
@@ -707,6 +922,29 @@
     let curDate = new Date();
     let selectedDayForModal = "";
 
+    // スタイル定義（ジャンル別背景色 & 役職バッジ）
+    function getScheduleStyles(item) {
+      let bgClass = "bg-emerald-950/70 border-emerald-500/40 text-emerald-200"; // デフォルトTRPG(緑)
+      let dotColor = "bg-emerald-400";
+      
+      if (item.category === 'mm') {
+        bgClass = "bg-purple-950/70 border-purple-500/40 text-purple-200"; // マダミス(紫)
+        dotColor = "bg-purple-400";
+      } else if (item.category === 'escape') {
+        bgClass = "bg-amber-950/70 border-amber-500/40 text-amber-200"; // 脱出(橙)
+        dotColor = "bg-amber-400";
+      }
+
+      // 役職スタイル (KP, GMは特別強調)
+      const role = item.role || 'PL';
+      const isMaster = (role === 'KP' || role === 'GM');
+      const roleBadge = isMaster
+        ? `<span class="bg-rose-500 text-white font-extrabold text-[9px] px-1 py-0.2 rounded shadow-sm mr-1 tracking-tighter">${role}</span>`
+        : `<span class="bg-slate-800 text-slate-300 font-medium text-[9px] px-1 py-0.2 rounded border border-slate-700 mr-1">${role}</span>`;
+
+      return { bgClass, dotColor, roleBadge, isMaster };
+    }
+
     function renderCalendar() {
       const year = curDate.getFullYear();
       const month = curDate.getMonth();
@@ -735,14 +973,20 @@
         cell.innerHTML = `
           <div class="font-semibold text-slate-400 mb-1 flex items-center justify-between">
             <span>${d}</span>
-            ${dayScheds.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>` : ''}
+            <div class="flex items-center gap-0.5">
+              ${dayScheds.map(s => `<span class="w-1.5 h-1.5 rounded-full ${getScheduleStyles(s).dotColor}"></span>`).slice(0, 3).join('')}
+            </div>
           </div>
           <div class="space-y-1 overflow-y-auto custom-scrollbar flex-1">
-            ${dayScheds.map(s => `
-              <div class="bg-purple-900/50 border border-purple-500/30 text-purple-200 px-1 py-0.5 rounded text-[10px] truncate" title="${escapeHtml((s.time ? s.time + ' ' : '') + s.title + ' ' + (s.note || ''))}">
-                ${s.time ? `<span class="text-purple-300 font-mono text-[9px] mr-1">${s.time}</span>` : ''}${escapeHtml(s.title)}
-              </div>
-            `).join('')}
+            ${dayScheds.map(s => {
+              const styles = getScheduleStyles(s);
+              return `
+                <div class="${styles.bgClass} border px-1 py-0.5 rounded text-[10px] truncate flex items-center" title="${escapeHtml((s.time ? s.time + ' ' : '') + `[${s.role || 'PL'}] ` + s.title + ' ' + (s.note || ''))}">
+                  ${styles.roleBadge}${s.time ? `<span class="font-mono text-[9px] mr-1 opacity-80">${s.time}</span>` : ''}
+                  <span class="truncate">${escapeHtml(s.title)}</span>
+                </div>
+              `;
+            }).join('')}
           </div>
         `;
         grid.appendChild(cell);
@@ -754,7 +998,6 @@
       renderCalendar();
     }
 
-    // 日付別予定
     function openDayScheduleModal(dateStr) {
       selectedDayForModal = dateStr;
       document.getElementById('dayScheduleModalDate').innerText = `${dateStr} の予定`;
@@ -766,15 +1009,20 @@
         listContainer.innerHTML = `<div class="text-xs text-slate-500 text-center py-4">この日の予定はありません</div>`;
       } else {
         items.forEach(s => {
+          const styles = getScheduleStyles(s);
+          const catName = s.category === 'mm' ? 'マダミス' : (s.category === 'escape' ? '脱出ゲーム' : 'TRPG');
+
           const row = document.createElement('div');
-          row.className = "flex items-center justify-between p-2.5 rounded-xl bg-slate-800/70 border border-slate-700/60";
+          row.className = `flex items-center justify-between p-2.5 rounded-xl border ${styles.bgClass}`;
           row.innerHTML = `
             <div class="overflow-hidden">
-              <div class="flex items-center gap-2">
-                ${s.time ? `<span class="text-xs font-mono font-bold text-purple-400 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-800/50">${escapeHtml(s.time)}</span>` : ''}
-                <span class="text-sm font-semibold text-slate-100 truncate">${escapeHtml(s.title)}</span>
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/40 font-medium">${catName}</span>
+                ${styles.roleBadge}
+                ${s.time ? `<span class="text-xs font-mono font-bold">${escapeHtml(s.time)}</span>` : ''}
+                <span class="text-sm font-semibold truncate">${escapeHtml(s.title)}</span>
               </div>
-              ${s.note ? `<div class="text-xs text-slate-400 mt-1 pl-1">${escapeHtml(s.note)}</div>` : ''}
+              ${s.note ? `<div class="text-xs opacity-80 mt-1 pl-1">${escapeHtml(s.note)}</div>` : ''}
             </div>
             <button onclick="deleteSchedule(${s.id})" class="admin-only p-1.5 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded transition text-xs ml-2" title="予定を削除">
               <i class="fa-solid fa-trash"></i>
@@ -804,19 +1052,29 @@
       }
     }
 
-    // TRPG 一覧（HO・ロスト対応）
+    // TRPG 一覧（並び替え・絞り込み対応）
     function renderTrpgList() {
       const container = document.getElementById('trpgList');
       container.innerHTML = '';
-      siteData.trpgChars.forEach(char => {
+
+      const sortMode = document.getElementById('trpgSortSelect')?.value || 'newest';
+      let list = [...siteData.trpgChars];
+
+      if (sortMode === 'newest') list.sort((a, b) => (b.id - a.id));
+      else if (sortMode === 'oldest') list.sort((a, b) => (a.id - b.id));
+      else if (sortMode === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+      else if (sortMode === 'alive') list = list.filter(c => !c.isLost);
+      else if (sortMode === 'lost') list = list.filter(c => c.isLost);
+
+      list.forEach(char => {
         const isLost = !!char.isLost;
         const card = document.createElement('div');
-        card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-purple-500/40 transition flex flex-col";
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-emerald-500/40 transition flex flex-col";
         card.innerHTML = `
           <div class="h-44 w-full bg-slate-800 relative cursor-pointer overflow-hidden" onclick="viewCharDetail(${char.id})">
             <img src="${char.avatar || 'https://via.placeholder.com/300'}" class="w-full h-full object-cover transition duration-300 ${isLost ? 'char-lost-img' : ''}">
             <div class="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
-              <span class="px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-purple-500/30 text-purple-300 font-medium">
+              <span class="px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-emerald-500/30 text-emerald-300 font-medium">
                 ${escapeHtml(char.system || 'TRPG')}
               </span>
               ${isLost ? `
@@ -829,26 +1087,25 @@
           </div>
           <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
             <div>
-              ${char.ho ? `<div class="text-xs text-purple-400 font-semibold mb-0.5">${escapeHtml(char.ho)}</div>` : ''}
-              <h3 class="text-lg font-bold ${isLost ? 'text-slate-400 line-through' : 'text-white'} cursor-pointer hover:text-purple-400 transition" onclick="viewCharDetail(${char.id})">
+              ${char.ho ? `<div class="text-xs text-emerald-400 font-semibold mb-0.5">${escapeHtml(char.ho)}</div>` : ''}
+              <h3 class="text-lg font-bold ${isLost ? 'text-slate-400 line-through' : 'text-white'} cursor-pointer hover:text-emerald-400 transition" onclick="viewCharDetail(${char.id})">
                 ${escapeHtml(char.name)}
               </h3>
               <p class="text-xs text-slate-400 line-clamp-2 mt-1">${escapeHtml(char.bio || '')}</p>
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-              <button onclick="viewCharDetail(${char.id})" class="text-xs text-purple-400 hover:text-purple-300 font-medium flex items-center gap-1">
+              <button onclick="viewCharDetail(${char.id})" class="text-xs text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1">
                 <span>詳細・ふせったー</span>
                 <i class="fa-solid fa-chevron-right text-[10px]"></i>
               </button>
               <div class="flex items-center space-x-1">
-                <!-- ロスト切り替えトグルボタン -->
                 <button onclick="toggleTrpgLost(${char.id})" class="admin-only px-1.5 py-0.5 rounded text-[10px] font-semibold transition ${isLost ? 'bg-rose-950/80 text-rose-300 border border-rose-500/40 hover:bg-rose-900' : 'bg-slate-800 text-slate-400 hover:text-rose-400'}" title="ロスト状態を切り替え">
                   <i class="fa-solid fa-skull mr-0.5"></i>${isLost ? 'ロスト中' : '生存'}
                 </button>
-                <button onclick="editTrpgChar(${char.id})" class="admin-only p-1 text-slate-400 hover:text-slate-200 text-xs" title="編集">
+                <button onclick="editTrpgChar(${char.id})" class="admin-only p-1 text-slate-400 hover:text-slate-200 text-xs">
                   <i class="fa-solid fa-pen"></i>
                 </button>
-                <button onclick="deleteTrpgChar(${char.id})" class="admin-only p-1 text-rose-400 hover:text-rose-300 text-xs" title="削除">
+                <button onclick="deleteTrpgChar(${char.id})" class="admin-only p-1 text-rose-400 hover:text-rose-300 text-xs">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -859,7 +1116,6 @@
       });
     }
 
-    // ロスト切り替えトグル関数
     function toggleTrpgLost(id) {
       const char = siteData.trpgChars.find(c => c.id === id);
       if (!char) return;
@@ -868,11 +1124,19 @@
       renderTrpgList();
     }
 
-    // Murder Mystery 一覧
+    // Murder Mystery 一覧（並び替え対応）
     function renderMurderMysteryList() {
       const container = document.getElementById('murderMysteryList');
       container.innerHTML = '';
-      siteData.murderMysteries.forEach(mm => {
+
+      const sortMode = document.getElementById('mmSortSelect')?.value || 'newest';
+      let list = [...siteData.murderMysteries];
+
+      if (sortMode === 'newest') list.sort((a, b) => (b.id - a.id));
+      else if (sortMode === 'oldest') list.sort((a, b) => (a.id - b.id));
+      else if (sortMode === 'scenario') list.sort((a, b) => a.scenario.localeCompare(b.scenario, 'ja'));
+
+      list.forEach(mm => {
         const card = document.createElement('div');
         card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-purple-500/40 transition flex flex-col";
         card.innerHTML = `
@@ -910,8 +1174,70 @@
       });
     }
 
+    // 脱出ゲーム 一覧（並び替え・絞り込み対応）
+    function renderEscapeList() {
+      const container = document.getElementById('escapeList');
+      container.innerHTML = '';
+
+      const sortMode = document.getElementById('escapeSortSelect')?.value || 'newest';
+      let list = [...(siteData.escapes || [])];
+
+      if (sortMode === 'newest') list.sort((a, b) => (b.id - a.id));
+      else if (sortMode === 'oldest') list.sort((a, b) => (a.id - b.id));
+      else if (sortMode === 'success') list = list.filter(e => e.result === 'success');
+      else if (sortMode === 'failure') list = list.filter(e => e.result === 'failure');
+      else if (sortMode === 'real') list = list.filter(e => e.type === 'real');
+      else if (sortMode === 'online') list = list.filter(e => e.type === 'online');
+
+      list.forEach(item => {
+        const isSuccess = item.result === 'success';
+        const typeText = item.type === 'online' ? 'オンライン' : 'リアル脱出';
+        const card = document.createElement('div');
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-amber-500/40 transition flex flex-col";
+        card.innerHTML = `
+          <div class="h-44 w-full bg-slate-800 relative cursor-pointer" onclick="viewEscapeDetail(${item.id})">
+            <img src="${item.image || 'https://via.placeholder.com/300'}" class="w-full h-full object-cover">
+            <div class="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+              <span class="px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-slate-700 text-slate-300 font-medium">
+                ${typeText}
+              </span>
+              <span class="px-2 py-0.5 text-[11px] rounded-full backdrop-blur border font-bold flex items-center gap-1 ${isSuccess ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300' : 'bg-rose-950/80 border-rose-500/50 text-rose-300'}">
+                <i class="fa-solid ${isSuccess ? 'fa-check' : 'fa-xmark'} text-[10px]"></i>
+                <span>${isSuccess ? 'SUCCESS' : 'FAILED'}</span>
+              </span>
+            </div>
+          </div>
+          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="text-[11px] text-slate-400">${escapeHtml(item.date || '')} ${item.team ? '・ ' + escapeHtml(item.team) : ''}</div>
+              <h3 class="text-lg font-bold text-white cursor-pointer hover:text-amber-400 transition mt-0.5" onclick="viewEscapeDetail(${item.id})">
+                ${escapeHtml(item.title)}
+              </h3>
+              <p class="text-xs text-slate-400 mt-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800/80 line-clamp-2">${escapeHtml(item.review || '感想なし')}</p>
+            </div>
+            
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <button onclick="viewEscapeDetail(${item.id})" class="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1">
+                <span>詳細・感想リンク</span>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+              <div class="flex items-center space-x-1">
+                <button onclick="editEscape(${item.id})" class="admin-only p-1 text-slate-400 hover:text-slate-200 text-xs">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button onclick="deleteEscape(${item.id})" class="admin-only p-1 text-rose-400 hover:text-rose-300 text-xs">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
     /* ==========================================================
-       5. モーダル・ファイルアップロード補助
+       5. フォーム・保存・詳細表示
     ========================================================== */
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -1008,20 +1334,24 @@
       renderFriendCodes();
     }
 
-    // 予定追加
+    // カレンダー
     function openScheduleModal() {
+      document.getElementById('inputSchedCategory').value = 'trpg';
+      document.getElementById('inputSchedRole').value = 'PL';
       document.getElementById('inputSchedTitle').value = '';
       document.getElementById('inputSchedNote').value = '';
       openModal('modalSchedule');
     }
     function saveSchedule() {
+      const category = document.getElementById('inputSchedCategory').value;
+      const role = document.getElementById('inputSchedRole').value;
       const date = document.getElementById('inputSchedDate').value;
       const time = document.getElementById('inputSchedTime').value;
       const title = document.getElementById('inputSchedTitle').value.trim();
       const note = document.getElementById('inputSchedNote').value.trim();
       if (!date || !title) return alert("日付とタイトルを入力してください");
 
-      siteData.schedules.push({ id: Date.now(), date, time, title, note });
+      siteData.schedules.push({ id: Date.now(), category, role, date, time, title, note });
       saveData();
       renderCalendar();
       closeModal('modalSchedule');
@@ -1042,7 +1372,7 @@
       c.appendChild(row);
     }
 
-    // TRPG キャラ作成・編集（HO・ロスト対応）
+    // TRPG
     let tempTrpgImg = "";
     function openTrpgModal(editItem = null) {
       document.getElementById('trpgEditId').value = editItem ? editItem.id : '';
@@ -1127,7 +1457,6 @@
       closeModal('modalTrpg');
     }
 
-    // TRPG キャラ詳細表示（HO・ロスト対応）
     function viewCharDetail(id) {
       const c = siteData.trpgChars.find(item => item.id === id);
       if (!c) return;
@@ -1137,7 +1466,6 @@
       document.getElementById('detailCharImg').src = c.avatar || 'https://via.placeholder.com/150';
       document.getElementById('detailCharBio').innerText = c.bio || '設定の記述はありません。';
 
-      // ロスト状態の表示
       const lostBadge = document.getElementById('detailCharLostBadge');
       const imgElem = document.getElementById('detailCharImg');
       if (c.isLost) {
@@ -1148,7 +1476,6 @@
         imgElem.classList.remove('char-lost-img');
       }
 
-      // HO表示
       const hoElem = document.getElementById('detailCharHo');
       if (c.ho) {
         hoElem.innerText = c.ho;
@@ -1175,10 +1502,7 @@
           a.target = "_blank";
           a.rel = "noopener noreferrer";
           a.className = "flex items-center justify-between text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition";
-          a.innerHTML = `
-            <span>${escapeHtml(f.label)}</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-purple-400 text-[11px]"></i>
-          `;
+          a.innerHTML = `<span>${escapeHtml(f.label)}</span><i class="fa-solid fa-arrow-up-right-from-square text-emerald-400 text-[11px]"></i>`;
           fList.appendChild(a);
         });
       } else {
@@ -1283,10 +1607,7 @@
           a.target = "_blank";
           a.rel = "noopener noreferrer";
           a.className = "flex items-center justify-between text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition";
-          a.innerHTML = `
-            <span>${escapeHtml(f.label)}</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-purple-400 text-[11px]"></i>
-          `;
+          a.innerHTML = `<span>${escapeHtml(f.label)}</span><i class="fa-solid fa-arrow-up-right-from-square text-purple-400 text-[11px]"></i>`;
           fList.appendChild(a);
         });
       } else {
@@ -1294,6 +1615,134 @@
       }
 
       openModal('modalMmDetail');
+    }
+
+    // 脱出ゲーム
+    let tempEscapeImg = "";
+    function openEscapeModal(editItem = null) {
+      document.getElementById('escapeEditId').value = editItem ? editItem.id : '';
+      document.getElementById('escapeModalTitle').innerText = editItem ? "脱出ゲーム 記録編集" : "脱出ゲーム 記録追加";
+      document.getElementById('inputEscapeTitle').value = editItem ? editItem.title : '';
+      document.getElementById('inputEscapeType').value = editItem ? editItem.type : 'real';
+      document.getElementById('inputEscapeResult').value = editItem ? editItem.result : 'success';
+      document.getElementById('inputEscapeDate').value = editItem ? (editItem.date || '') : '';
+      document.getElementById('inputEscapeTeam').value = editItem ? (editItem.team || '') : '';
+      document.getElementById('inputEscapeReview').value = editItem ? (editItem.review || '') : '';
+
+      const preview = document.getElementById('previewEscapeImg');
+      tempEscapeImg = editItem ? (editItem.image || '') : '';
+      if (tempEscapeImg) {
+        preview.src = tempEscapeImg;
+        preview.classList.remove('hidden');
+      } else {
+        preview.classList.add('hidden');
+      }
+
+      document.getElementById('inputEscapeImgFile').onchange = (e) => {
+        handleImageUpload(e.target, preview, b64 => { tempEscapeImg = b64; });
+      };
+
+      const flist = document.getElementById('escapeFusetterList');
+      flist.innerHTML = '';
+      if (editItem && editItem.fusetters) {
+        editItem.fusetters.forEach(f => addFusetterLinkRow('escapeFusetterList', f.label, f.url));
+      }
+
+      openModal('modalEscape');
+    }
+
+    function editEscape(id) {
+      const item = (siteData.escapes || []).find(e => e.id === id);
+      if (item) openEscapeModal(item);
+    }
+
+    function deleteEscape(id) {
+      if (!confirm("この記録を削除しますか？")) return;
+      siteData.escapes = (siteData.escapes || []).filter(e => e.id !== id);
+      saveData();
+      renderEscapeList();
+    }
+
+    function saveEscape() {
+      const editId = document.getElementById('escapeEditId').value;
+      const title = document.getElementById('inputEscapeTitle').value.trim();
+      const type = document.getElementById('inputEscapeType').value;
+      const result = document.getElementById('inputEscapeResult').value;
+      const date = document.getElementById('inputEscapeDate').value;
+      const team = document.getElementById('inputEscapeTeam').value.trim();
+      const review = document.getElementById('inputEscapeReview').value.trim();
+      if (!title) return alert("公演・タイトル名を入力してください");
+
+      const fusetters = [];
+      document.querySelectorAll('#escapeFusetterList .fusetter-row').forEach(row => {
+        const label = row.querySelector('.fusetter-label').value.trim();
+        const url = row.querySelector('.fusetter-url').value.trim();
+        if (url) fusetters.push({ label: label || 'ネタバレ感想', url });
+      });
+
+      const escapeObj = {
+        id: editId ? Number(editId) : Date.now(),
+        title,
+        type,
+        result,
+        date,
+        team,
+        image: tempEscapeImg || "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&h=300&fit=crop",
+        review,
+        fusetters
+      };
+
+      if (!siteData.escapes) siteData.escapes = [];
+      if (editId) {
+        const idx = siteData.escapes.findIndex(e => e.id === Number(editId));
+        if (idx !== -1) siteData.escapes[idx] = escapeObj;
+      } else {
+        siteData.escapes.push(escapeObj);
+      }
+
+      saveData();
+      renderEscapeList();
+      closeModal('modalEscape');
+    }
+
+    function viewEscapeDetail(id) {
+      const e = (siteData.escapes || []).find(item => item.id === id);
+      if (!e) return;
+
+      document.getElementById('detailEscapeTitle').innerText = e.title;
+      document.getElementById('detailEscapeType').innerText = e.type === 'online' ? 'オンライン脱出ゲーム' : 'リアル脱出ゲーム';
+      
+      const resBadge = document.getElementById('detailEscapeResultBadge');
+      if (e.result === 'success') {
+        resBadge.innerText = '脱出成功 (SUCCESS)';
+        resBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-950/80 border border-emerald-500/50 text-emerald-300';
+      } else {
+        resBadge.innerText = '脱出失敗 (FAILED)';
+        resBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-950/80 border border-rose-500/50 text-rose-300';
+      }
+
+      document.getElementById('detailEscapeDate').innerText = e.date || '未登録';
+      document.getElementById('detailEscapeTeam').innerText = e.team || '未登録';
+      document.getElementById('detailEscapeImg').src = e.image || 'https://via.placeholder.com/150';
+      document.getElementById('detailEscapeReview').innerText = e.review || '感想はありません。';
+
+      const fList = document.getElementById('detailEscapeFusetterList');
+      fList.innerHTML = '';
+      if (e.fusetters && e.fusetters.length > 0) {
+        e.fusetters.forEach(f => {
+          const a = document.createElement('a');
+          a.href = f.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.className = "flex items-center justify-between text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition";
+          a.innerHTML = `<span>${escapeHtml(f.label)}</span><i class="fa-solid fa-arrow-up-right-from-square text-amber-400 text-[11px]"></i>`;
+          fList.appendChild(a);
+        });
+      } else {
+        fList.innerHTML = '<p class="text-xs text-slate-500 italic">登録された感想はありません</p>';
+      }
+
+      openModal('modalEscapeDetail');
     }
 
     /* ==========================================================
@@ -1322,6 +1771,7 @@
     renderCalendar();
     renderTrpgList();
     renderMurderMysteryList();
+    renderEscapeList();
   </script>
 </body>
 </html>
