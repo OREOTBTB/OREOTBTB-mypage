@@ -41,7 +41,7 @@
   <!-- ヘッダー -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <!-- 左上：マーク削除、OTABE's site に変更 -->
+      <!-- 左上：マークなし・OTABE's site -->
       <div class="cursor-pointer" onclick="switchTab('home')">
         <span class="font-bold text-xl tracking-wider text-slate-100 hover:text-purple-400 transition">OTABE's site</span>
       </div>
@@ -60,7 +60,6 @@
           <i class="fa-solid fa-shield-halved"></i>
           <span>Murder Mystery</span>
         </button>
-        <!-- 脱出ゲームタブ追加 -->
         <button onclick="switchTab('escape')" id="tab-escape" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">
           <i class="fa-solid fa-key"></i>
           <span>脱出ゲーム</span>
@@ -103,7 +102,7 @@
         </div>
       </div>
 
-      <!-- 下部2カラム：フレンドコード & カレンダー -->
+      <!-- フレンドコード & カレンダー -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         <!-- フレンドコード -->
@@ -129,7 +128,6 @@
             </h2>
             
             <div class="flex items-center space-x-2">
-              <!-- 凡例 -->
               <div class="hidden sm:flex items-center gap-2 text-[10px] mr-2 text-slate-400">
                 <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded bg-emerald-500"></span>TRPG</span>
                 <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded bg-purple-500"></span>マダミス</span>
@@ -176,7 +174,6 @@
         </div>
         
         <div class="flex items-center gap-3">
-          <!-- 並び替え・絞り込み -->
           <select id="trpgSortSelect" onchange="renderTrpgList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
             <option value="newest">新しい順</option>
             <option value="oldest">古い順</option>
@@ -192,7 +189,6 @@
         </div>
       </div>
 
-      <!-- キャラクター一覧 -->
       <div id="trpgList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
@@ -208,7 +204,6 @@
         </div>
 
         <div class="flex items-center gap-3">
-          <!-- 並び替え -->
           <select id="mmSortSelect" onchange="renderMurderMysteryList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
             <option value="newest">新しい順</option>
             <option value="oldest">古い順</option>
@@ -222,7 +217,6 @@
         </div>
       </div>
 
-      <!-- Murder Mystery 一覧 -->
       <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
@@ -238,7 +232,6 @@
         </div>
 
         <div class="flex items-center gap-3">
-          <!-- 並び替え・絞り込み -->
           <select id="escapeSortSelect" onchange="renderEscapeList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
             <option value="newest">新しい順</option>
             <option value="oldest">古い順</option>
@@ -255,7 +248,6 @@
         </div>
       </div>
 
-      <!-- 脱出ゲーム一覧 -->
       <div id="escapeList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
@@ -327,7 +319,7 @@
     </div>
   </div>
 
-  <!-- 予定追加モーダル（ジャンル・役職対応） -->
+  <!-- 予定追加モーダル -->
   <div id="modalSchedule" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
@@ -457,7 +449,6 @@
           <textarea id="inputTrpgBio" rows="4" placeholder="性格や裏設定などを記入" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
         </div>
 
-        <!-- ふせったーリンク集 -->
         <div>
           <div class="flex items-center justify-between mb-2">
             <label class="block text-slate-300 font-medium">ふせったー等の感想URL</label>
@@ -722,8 +713,18 @@
     /* ==========================================================
        1. データ管理
     ========================================================== */
-    const STORAGE_KEY = 'portal_site_data_v5';
+    const STORAGE_KEY = 'portal_site_data_v6';
     const ADMIN_STORAGE_KEY = 'portal_site_is_admin';
+
+    // パスワード「OREOTBTB」のSHA-256ハッシュ値（元の文字列は復元不能）
+    const ADMIN_PASSWORD_HASH = "c1b48b6f3c50920dfa7bfe4be237a829143c7b8480ebf797dd24d5ba7a1b8089";
+
+    async function sha256(text) {
+      const msgBuffer = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
     const defaultData = {
       profile: {
@@ -811,7 +812,7 @@
     }
 
     /* ==========================================================
-       2. 管理者／閲覧モード判定
+       2. 安全な管理者認証判定（SHA-256）
     ========================================================== */
     const urlParams = new URLSearchParams(window.location.search);
     let isAdmin = urlParams.get('admin') === 'true' || localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
@@ -827,7 +828,7 @@
       }
     }
 
-    function toggleAdminPrompt() {
+    async function toggleAdminPrompt() {
       if (isAdmin) {
         if (confirm("管理者モード（編集権限）を解除し、閲覧専用モードに戻しますか？")) {
           isAdmin = false;
@@ -836,12 +837,16 @@
         }
       } else {
         const pass = prompt("管理者パスワードを入力してください:");
-        if (pass === "Hakupoko") {
+        if (!pass) return;
+
+        // 入力パスワードをハッシュ化して照合
+        const inputHash = await sha256(pass);
+        if (inputHash === ADMIN_PASSWORD_HASH) {
           isAdmin = true;
           localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
           applyAdminMode();
           alert("管理者モードになりました。編集・追加・削除が行えます！");
-        } else if (pass !== null) {
+        } else {
           alert("パスワードが違います。");
         }
       }
@@ -922,20 +927,18 @@
     let curDate = new Date();
     let selectedDayForModal = "";
 
-    // スタイル定義（ジャンル別背景色 & 役職バッジ）
     function getScheduleStyles(item) {
-      let bgClass = "bg-emerald-950/70 border-emerald-500/40 text-emerald-200"; // デフォルトTRPG(緑)
+      let bgClass = "bg-emerald-950/70 border-emerald-500/40 text-emerald-200";
       let dotColor = "bg-emerald-400";
       
       if (item.category === 'mm') {
-        bgClass = "bg-purple-950/70 border-purple-500/40 text-purple-200"; // マダミス(紫)
+        bgClass = "bg-purple-950/70 border-purple-500/40 text-purple-200";
         dotColor = "bg-purple-400";
       } else if (item.category === 'escape') {
-        bgClass = "bg-amber-950/70 border-amber-500/40 text-amber-200"; // 脱出(橙)
+        bgClass = "bg-amber-950/70 border-amber-500/40 text-amber-200";
         dotColor = "bg-amber-400";
       }
 
-      // 役職スタイル (KP, GMは特別強調)
       const role = item.role || 'PL';
       const isMaster = (role === 'KP' || role === 'GM');
       const roleBadge = isMaster
@@ -1052,7 +1055,7 @@
       }
     }
 
-    // TRPG 一覧（並び替え・絞り込み対応）
+    // TRPG 一覧
     function renderTrpgList() {
       const container = document.getElementById('trpgList');
       container.innerHTML = '';
@@ -1124,7 +1127,7 @@
       renderTrpgList();
     }
 
-    // Murder Mystery 一覧（並び替え対応）
+    // Murder Mystery 一覧
     function renderMurderMysteryList() {
       const container = document.getElementById('murderMysteryList');
       container.innerHTML = '';
@@ -1174,7 +1177,7 @@
       });
     }
 
-    // 脱出ゲーム 一覧（並び替え・絞り込み対応）
+    // 脱出ゲーム 一覧
     function renderEscapeList() {
       const container = document.getElementById('escapeList');
       container.innerHTML = '';
