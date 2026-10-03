@@ -57,7 +57,7 @@
         </button>
         <button onclick="switchTab('murder-mystery')" id="tab-murder-mystery" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">
           <i class="fa-solid fa-shield-halved"></i>
-          <span>Murder Mystery</span>
+          <span>マダミス</span>
         </button>
         <button onclick="switchTab('escape')" id="tab-escape" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">
           <i class="fa-solid fa-key"></i>
@@ -162,92 +162,143 @@
     </section>
 
     <!-- ==================== 2. TRPG ==================== -->
-    <section id="view-trpg" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-dice-d20 text-emerald-400"></i>
-            <span>TRPG キャラクター一覧</span>
-          </h2>
-          <p class="text-xs text-slate-400 mt-1">作成した探索者・キャラクターの設定とふせったー感想リンク集</p>
-        </div>
-        
-        <div class="flex items-center gap-3">
-          <select id="trpgSortSelect" onchange="renderTrpgList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
-            <option value="newest">新しい順</option>
-            <option value="oldest">古い順</option>
-            <option value="name">名前順</option>
-            <option value="alive">生存のみ</option>
-            <option value="lost">ロストのみ</option>
-          </select>
-
-          <button onclick="openTrpgModal()" class="admin-only px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-plus"></i>
-            <span>キャラクター作成</span>
+    <section id="view-trpg" class="hidden space-y-8">
+      <!-- 通過予定欄 -->
+      <div class="bg-slate-900/60 border border-emerald-500/20 rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-emerald-300 flex items-center gap-2">
+            <i class="fa-solid fa-clock"></i>
+            <span>通過・セッション予定</span>
+          </h3>
+          <button onclick="openScheduleModalWithCategory('trpg')" class="admin-only text-xs px-2.5 py-1 rounded bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/40 border border-emerald-500/30 transition">
+            <i class="fa-solid fa-plus mr-1"></i>予定を追加
           </button>
         </div>
+        <div id="trpgUpcomingList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
       </div>
 
-      <div id="trpgList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <!-- キャラクター一覧 -->
+      <div class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-dice-d20 text-emerald-400"></i>
+              <span>TRPG キャラクター一覧</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">作成した探索者・キャラクターの設定とふせったー感想リンク集</p>
+          </div>
+          
+          <div class="flex items-center gap-3">
+            <select id="trpgSortSelect" onchange="renderTrpgList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
+              <option value="newest">新しい順</option>
+              <option value="oldest">古い順</option>
+              <option value="name">名前順</option>
+              <option value="alive">生存のみ</option>
+              <option value="lost">ロストのみ</option>
+            </select>
+
+            <button onclick="openTrpgModal()" class="admin-only px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2 whitespace-nowrap">
+              <i class="fa-solid fa-plus"></i>
+              <span>キャラクター作成</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="trpgList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
     </section>
 
-    <!-- ==================== 3. Murder Mystery ==================== -->
-    <section id="view-murder-mystery" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-shield-halved text-purple-400"></i>
-            <span>Murder Mystery 通過記録</span>
-          </h2>
-          <p class="text-xs text-slate-400 mt-1">通過したMurder Mysteryシナリオ・担当キャラクターと感想まとめ</p>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <select id="mmSortSelect" onchange="renderMurderMysteryList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
-            <option value="newest">新しい順</option>
-            <option value="oldest">古い順</option>
-            <option value="scenario">タイトル順</option>
-          </select>
-
-          <button onclick="openMurderMysteryModal()" class="admin-only px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-plus"></i>
-            <span>シナリオ記録の追加</span>
+    <!-- ==================== 3. マダミス ==================== -->
+    <section id="view-murder-mystery" class="hidden space-y-8">
+      <!-- 通過予定欄 -->
+      <div class="bg-slate-900/60 border border-purple-500/20 rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-purple-300 flex items-center gap-2">
+            <i class="fa-solid fa-clock"></i>
+            <span>通過予定シナリオ</span>
+          </h3>
+          <button onclick="openScheduleModalWithCategory('mm')" class="admin-only text-xs px-2.5 py-1 rounded bg-purple-600/20 text-purple-300 hover:bg-purple-600/40 border border-purple-500/30 transition">
+            <i class="fa-solid fa-plus mr-1"></i>予定を追加
           </button>
         </div>
+        <div id="mmUpcomingList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
       </div>
 
-      <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <!-- 通過記録一覧 -->
+      <div class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-purple-400"></i>
+              <span>マダミス 通過記録</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">通過したマダミスシナリオ・担当キャラクターと感想まとめ</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <select id="mmSortSelect" onchange="renderMurderMysteryList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
+              <option value="newest">新しい順</option>
+              <option value="oldest">古い順</option>
+              <option value="scenario">タイトル順</option>
+            </select>
+
+            <button onclick="openMurderMysteryModal()" class="admin-only px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium shadow-lg shadow-purple-600/30 transition flex items-center gap-2 whitespace-nowrap">
+              <i class="fa-solid fa-plus"></i>
+              <span>シナリオ記録の追加</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="murderMysteryList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
     </section>
 
     <!-- ==================== 4. 脱出ゲーム ==================== -->
-    <section id="view-escape" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-key text-amber-400"></i>
-            <span>脱出ゲーム 参加記録</span>
-          </h2>
-          <p class="text-xs text-slate-400 mt-1">リアル・オンライン脱出ゲームの戦績（成功／失敗）と感想まとめ</p>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <select id="escapeSortSelect" onchange="renderEscapeList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
-            <option value="newest">新しい順</option>
-            <option value="oldest">古い順</option>
-            <option value="success">成功のみ</option>
-            <option value="failure">失敗のみ</option>
-            <option value="real">リアル脱出のみ</option>
-            <option value="online">オンラインのみ</option>
-          </select>
-
-          <button onclick="openEscapeModal()" class="admin-only px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium shadow-lg shadow-amber-600/30 transition flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-plus"></i>
-            <span>脱出ゲーム記録の追加</span>
+    <section id="view-escape" class="hidden space-y-8">
+      <!-- 参加予定欄 -->
+      <div class="bg-slate-900/60 border border-amber-500/20 rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-amber-300 flex items-center gap-2">
+            <i class="fa-solid fa-clock"></i>
+            <span>参加予定の公演・脱出</span>
+          </h3>
+          <button onclick="openScheduleModalWithCategory('escape')" class="admin-only text-xs px-2.5 py-1 rounded bg-amber-600/20 text-amber-300 hover:bg-amber-600/40 border border-amber-500/30 transition">
+            <i class="fa-solid fa-plus mr-1"></i>予定を追加
           </button>
         </div>
+        <div id="escapeUpcomingList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
       </div>
 
-      <div id="escapeList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <!-- 参加記録一覧 -->
+      <div class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-key text-amber-400"></i>
+              <span>脱出ゲーム 参加記録</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">リアル・オンライン脱出ゲームの戦績（成功／失敗）と感想まとめ</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <select id="escapeSortSelect" onchange="renderEscapeList()" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-purple-500">
+              <option value="newest">新しい順</option>
+              <option value="oldest">古い順</option>
+              <option value="success">成功のみ</option>
+              <option value="failure">失敗のみ</option>
+              <option value="real">リアル脱出のみ</option>
+              <option value="online">オンラインのみ</option>
+            </select>
+
+            <button onclick="openEscapeModal()" class="admin-only px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium shadow-lg shadow-amber-600/30 transition flex items-center gap-2 whitespace-nowrap">
+              <i class="fa-solid fa-plus"></i>
+              <span>脱出ゲーム記録の追加</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="escapeList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
     </section>
 
   </main>
@@ -463,12 +514,12 @@
     </div>
   </div>
 
-  <!-- Murder Mystery 追加・編集モーダル -->
+  <!-- マダミス 追加・編集モーダル -->
   <div id="modalMurderMystery" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl p-6 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
         <i class="fa-solid fa-shield-halved text-purple-400"></i>
-        <span id="murderMysteryModalTitle">Murder Mystery 記録</span>
+        <span id="murderMysteryModalTitle">マダミス 記録</span>
       </h3>
       <input type="hidden" id="mmEditId">
       <div class="space-y-4 text-sm">
@@ -698,9 +749,8 @@
   <!-- Firebase SDK & 連携スクリプト -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-    import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-    // ご提供いただいたFirebase設定
     const firebaseConfig = {
       apiKey: "AIzaSyDE-1j-mTGG_zulgJjLcR8RwlCa0NNduzo",
       authDomain: "otabe-portal.firebaseapp.com",
@@ -724,7 +774,7 @@
       }
     };
 
-    // リアルタイム同期リスナー（どの端末で開いても最新データが降ってくる）
+    // リアルタイム同期リスナー
     onSnapshot(docRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
@@ -732,7 +782,6 @@
         localStorage.setItem(window.STORAGE_KEY, JSON.stringify(window.siteData));
         window.renderAll();
       } else {
-        // クラウド上にデータがまだない場合はローカルのデータをアップロード
         setDoc(docRef, window.siteData);
       }
     });
@@ -792,7 +841,6 @@
     window.STORAGE_KEY = STORAGE_KEY;
     window.siteData = loadLocalData();
 
-    // データ保存関数（ブラウザ保存 + Firebase自動送信）
     function saveData() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(siteData));
       if (window.syncToFirebase) {
@@ -804,15 +852,14 @@
       renderProfile();
       renderFriendCodes();
       renderCalendar();
+      renderUpcomingSchedules();
       renderTrpgList();
       renderMurderMysteryList();
       renderEscapeList();
     }
     window.renderAll = renderAll;
 
-    /* ==========================================================
-       管理者認証判定
-    ========================================================== */
+    /* 管理者認証判定 */
     const urlParams = new URLSearchParams(window.location.search);
     let isAdmin = urlParams.get('admin') === 'true' || localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
 
@@ -864,9 +911,7 @@
       });
     }
 
-    /* ==========================================================
-       各レンダリング処理
-    ========================================================== */
+    /* 各種レンダリング */
     function renderProfile() {
       const p = siteData.profile || {};
       document.getElementById('profName').innerText = p.name || "OTABE";
@@ -988,6 +1033,62 @@
       }
     }
 
+    /* 各タブの予定・通過予定欄の描画 */
+    function renderUpcomingSchedules() {
+      const today = new Date().toISOString().split('T')[0];
+
+      const renderCategoryUpcoming = (category, containerId, emptyText) => {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        // 今日以降の予定を昇順で抽出（今日以降がなければ直近の全予定を日付降順）
+        const allItems = (siteData.schedules || []).filter(s => s.category === category);
+        let items = allItems.filter(s => s.date >= today).sort((a, b) => a.date.localeCompare(b.date));
+
+        if (items.length === 0) {
+          container.innerHTML = `<div class="col-span-full py-4 text-center text-xs text-slate-500 italic">${emptyText}</div>`;
+          return;
+        }
+
+        items.forEach(s => {
+          const styles = getScheduleStyles(s);
+          const card = document.createElement('div');
+          card.className = `p-3 rounded-xl border ${styles.bgClass} flex flex-col justify-between space-y-2`;
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="text-xs font-mono font-bold tracking-wide">${escapeHtml(s.date)} ${s.time ? `<span class="opacity-90 font-normal">(${escapeHtml(s.time)})</span>` : ''}</span>
+                <div>${styles.roleBadge}</div>
+              </div>
+              <div class="text-sm font-bold text-white truncate" title="${escapeHtml(s.title)}">${escapeHtml(s.title)}</div>
+              ${s.note ? `<div class="text-xs opacity-80 mt-1 line-clamp-1">${escapeHtml(s.note)}</div>` : ''}
+            </div>
+            <div class="flex justify-end pt-1">
+              <button onclick="deleteSchedule(${s.id})" class="admin-only p-1 text-rose-400 hover:text-rose-200 text-xs" title="予定を削除">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      };
+
+      renderCategoryUpcoming('trpg', 'trpgUpcomingList', '現在、登録されているTRPGの予定はありません');
+      renderCategoryUpcoming('mm', 'mmUpcomingList', '現在、登録されているマダミスの通過予定はありません');
+      renderCategoryUpcoming('escape', 'escapeUpcomingList', '現在、登録されている脱出ゲームの予定はありません');
+    }
+
+    function openScheduleModalWithCategory(cat) {
+      document.getElementById('inputSchedCategory').value = cat;
+      document.getElementById('inputSchedRole').value = 'PL';
+      document.getElementById('inputSchedDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('inputSchedTime').value = '';
+      document.getElementById('inputSchedTitle').value = '';
+      document.getElementById('inputSchedNote').value = '';
+      openModal('modalSchedule');
+    }
+
     function changeMonth(delta) {
       curDate.setMonth(curDate.getMonth() + delta);
       renderCalendar();
@@ -1042,6 +1143,7 @@
       siteData.schedules = (siteData.schedules || []).filter(s => s.id !== id);
       saveData();
       renderCalendar();
+      renderUpcomingSchedules();
       if (selectedDayForModal) {
         openDayScheduleModal(selectedDayForModal);
       }
@@ -1137,7 +1239,7 @@
             <img src="${mm.image || 'https://via.placeholder.com/300'}" class="w-full h-full object-cover">
             <span class="absolute top-3 left-3 px-2 py-0.5 text-[11px] rounded-full bg-slate-900/80 backdrop-blur border border-purple-500/30 text-purple-300 font-medium flex items-center gap-1">
               <i class="fa-solid fa-shield-halved text-[10px]"></i>
-              <span>Murder Mystery</span>
+              <span>マダミス</span>
             </span>
           </div>
           <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
@@ -1228,9 +1330,7 @@
       });
     }
 
-    /* ==========================================================
-       フォーム・モーダル補助
-    ========================================================== */
+    /* フォーム・モーダル補助 */
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
@@ -1328,6 +1428,8 @@
     function openScheduleModal() {
       document.getElementById('inputSchedCategory').value = 'trpg';
       document.getElementById('inputSchedRole').value = 'PL';
+      document.getElementById('inputSchedDate').value = '';
+      document.getElementById('inputSchedTime').value = '';
       document.getElementById('inputSchedTitle').value = '';
       document.getElementById('inputSchedNote').value = '';
       openModal('modalSchedule');
@@ -1345,6 +1447,7 @@
       siteData.schedules.push({ id: Date.now(), category, role, date, time, title, note });
       saveData();
       renderCalendar();
+      renderUpcomingSchedules();
       closeModal('modalSchedule');
     }
 
@@ -1505,7 +1608,7 @@
     let tempMmImg = "";
     function openMurderMysteryModal(editItem = null) {
       document.getElementById('mmEditId').value = editItem ? editItem.id : '';
-      document.getElementById('murderMysteryModalTitle').innerText = editItem ? "Murder Mystery 記録編集" : "Murder Mystery 記録追加";
+      document.getElementById('murderMysteryModalTitle').innerText = editItem ? "マダミス 記録編集" : "マダミス 記録追加";
       document.getElementById('inputMmScenario').value = editItem ? editItem.scenario : '';
       document.getElementById('inputMmChar').value = editItem ? editItem.character : '';
       document.getElementById('inputMmReview').value = editItem ? (editItem.review || '') : '';
